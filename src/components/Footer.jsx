@@ -1,12 +1,11 @@
 import React from 'react';
 import styled from 'styled-components';
 
-const Footer = () => {
-  const FooterContainer = styled.div`
+const FooterContainer = styled.div`
     height: 60px;
   `;
 
-  const StyledUnorderedList = styled.ul`
+const StyledUnorderedList = styled.ul`
     display: flex;
     flex-direction: row;
     list-style-type: none;
@@ -17,13 +16,12 @@ const Footer = () => {
     height: 100%;
   `;
 
-  return (
-    <FooterContainer>
-      <StyledUnorderedList>
-        Footer
-      </StyledUnorderedList>
-    </FooterContainer>
-  );
-};
+const Footer = () => (
+  <FooterContainer>
+    <StyledUnorderedList>
+      Footer
+    </StyledUnorderedList>
+  </FooterContainer>
+);
 
 export default Footer;

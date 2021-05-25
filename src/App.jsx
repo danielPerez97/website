@@ -9,6 +9,15 @@ import BlogList from './components/BlogList';
 import BlogPost from './components/BlogPost';
 import Footer from './components/Footer';
 
+const Container = styled.div`
+    display: flex;
+    flex-Direction: column;
+    height: calc(100vh - 120px);
+    justify-content: center;
+    align-items: center;
+    width: calc(100vw - 80px);
+  `;
+
 function App() {
   const [posts, setPosts] = useState([]);
 
@@ -33,15 +42,6 @@ function App() {
 
     loadBlogPosts();
   }, []);
-
-  const Container = styled.div`
-    display: flex;
-    flex-Direction: column;
-    height: calc(100vh - 120px);
-    justify-content: center;
-    align-items: center;
-    width: calc(100vw - 80px);
-  `;
 
   return (
     <div>

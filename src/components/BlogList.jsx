@@ -3,16 +3,11 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const BlogList = ({ blogs }) => {
-  const ulStyle = {
-    'list-style-type': 'none',
-  };
-
-  const UnorderedList = styled.ul`
+const UnorderedList = styled.ul`
     list-style-type: none;
   `;
 
-  const ListItem = styled.li`
+const ListItem = styled.li`
     list-style-type: none;
     display: flex;
     font-family: sans-serif;
@@ -20,20 +15,19 @@ const BlogList = ({ blogs }) => {
     padding-bottom: 8px;
   `;
 
-  return (
-    <div>
-      <UnorderedList style={ulStyle}>
-        {
+const BlogList = ({ blogs }) => (
+  <div>
+    <UnorderedList>
+      {
           blogs.map(({ id, title }) => (
-            <ListItem>
+            <ListItem key={id}>
               <Link to={`/blog/${id}`}>{title}</Link>
             </ListItem>
           ))
         }
-      </UnorderedList>
-    </div>
-  );
-};
+    </UnorderedList>
+  </div>
+);
 
 BlogList.propTypes = {
   blogs: PropTypes.arrayOf(PropTypes.shape({

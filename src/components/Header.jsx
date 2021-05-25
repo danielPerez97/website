@@ -2,12 +2,11 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
-const Header = () => {
-  const HeaderContainer = styled.div`
+const HeaderContainer = styled.div`
     height: 60px;
   `;
 
-  const StyledUnorderedList = styled.ul`
+const StyledUnorderedList = styled.ul`
     display: flex;
     flex-direction: row;
     list-style-type: none;
@@ -18,12 +17,12 @@ const Header = () => {
     height: 100%;
   `;
 
-  const ListItem = styled.li`
+const ListItem = styled.li`
     float: left;
     height: 100%;
   `;
 
-  const BaseStyledLinkAndP = css`
+const BaseStyledLinkAndP = css`
     display: block;
     height: 60px;
     color: white;
@@ -36,32 +35,31 @@ const Header = () => {
     margin: 0;
   `;
 
-  const StyledA = styled.a`
+const StyledA = styled.a`
     ${BaseStyledLinkAndP}
   `;
 
-  const StyledLink = styled(Link)`
+const StyledLink = styled(Link)`
     ${BaseStyledLinkAndP}
   `;
 
-  return (
-    <HeaderContainer>
-      <StyledUnorderedList>
-        <ListItem>
-          <StyledLink to="/">Daniel Perez</StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledLink to="/">About Me</StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledLink to="/blog">Blog</StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
-        </ListItem>
-      </StyledUnorderedList>
-    </HeaderContainer>
-  );
-};
+const Header = () => (
+  <HeaderContainer>
+    <StyledUnorderedList>
+      <ListItem>
+        <StyledLink to="/">Daniel Perez</StyledLink>
+      </ListItem>
+      <ListItem>
+        <StyledLink to="/">About Me</StyledLink>
+      </ListItem>
+      <ListItem>
+        <StyledLink to="/blog">Blog</StyledLink>
+      </ListItem>
+      <ListItem>
+        <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
+      </ListItem>
+    </StyledUnorderedList>
+  </HeaderContainer>
+);
 
 export default Header;

@@ -3,8 +3,7 @@ import ReactMarkdown from 'react-markdown';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
-const BlogPost = ({ body }) => {
-  const BlogPostContainer = styled.div`
+const BlogPostContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -12,7 +11,7 @@ const BlogPost = ({ body }) => {
     padding: 5px;
   `;
 
-  const MarkDownContainer = styled.div`
+const MarkDownContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -20,16 +19,15 @@ const BlogPost = ({ body }) => {
     font-family: monospace;
   `;
 
-  return (
-    <BlogPostContainer>
-      <MarkDownContainer>
-        <ReactMarkdown>
-          {body}
-        </ReactMarkdown>
-      </MarkDownContainer>
-    </BlogPostContainer>
-  );
-};
+const BlogPost = ({ body }) => (
+  <BlogPostContainer>
+    <MarkDownContainer>
+      <ReactMarkdown>
+        {body}
+      </ReactMarkdown>
+    </MarkDownContainer>
+  </BlogPostContainer>
+);
 
 BlogPost.propTypes = {
   body: PropTypes.string.isRequired,
