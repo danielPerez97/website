@@ -1,37 +1,47 @@
-# Gradle Basics
+# Using Licensee to Automate Your Open-Source Licenses on Android Using Jetpack Compose
 
-Gradle is a controversial tool, if /r/androiddev is to be trusted. Still, every Android Developer has used it by now and
-I'm here to try and convince you to use Gradle modules.
+On June 8, 2021, Jake Wharton from Square's Cash App team posted [this blog post][1] detailing a new tool they'd been using
+internally called Licensee. Licensee examines your applications dependencies with a gradle plugin and produces a JSON
+file that can be parsed into an app. It's also completely agnostic to whether or not you are using an Android app or 
+building a regular JVM application(Compose Desktop anyone?).
 
-# What is a module?
+# Getting Licensee
+Per [Licensee's documentation][2], you'll need to add the gradle plugin to your classpath and apply the plugin to
+whichever module whose dependency graph you are planning to check(for Android, let's use the app module):
 
-It's a library. That's it. No really, a module is a library that resides within your Gradle project. Nobody else except
-you can throw your module/library into their `dependencies` block, but you can. This can be achieved similarly to what
-you're already used to, just call the `project` function inside the `dependencies` function, then specify your module as
-a string.
+```kotlin
+// Project build.gradle
+buildscript {
+  repository {
+    mavenCental()
+  }
+  dependencies {
+    classpath 'app.cash.licensee:licensee-gradle-plugin:1.2.0'
+  }
+}
 
-Kotlin:  
-`implementation( project( "my-module-name" ) )`
+// Put this in your App Module
 
-Groovy:  
-`implementation project 'my-module-name''`
+// Method 1
+apply plugin: 'app.cash.licensee'
 
-Have you ever seen that mysterious settings.gradle(or settings.gradle.kts)
-file? That is where you specify modules inside your project. In the above example, that is where we would specify "
-my-module-name" so that the `project` function knows what it's looking for.
+// Method 2
+plugins {
+    id("app.cash.licensee")
+}
+```
 
-# Why should I use them?
+You're all set to use Licensee. Let's take a look at configuring it to only allow certain licenses.
 
-Early in my Android development journey, I ran into a common problem:
-I could not structure my code. I could write code, this was evidenced way-too-big activity classes with multiple
-instances of duplicated code.
+# Configuring Licenses
 
-# Dependencies
+# Creating artifacts.json
 
-"Gradle is the tool I dump my libraries into." True
+# Copying artifacts.json to your /res folder
 
-"Gradle seems to"
+# Using Moshi to Parse JSON files
 
-#### Structure
+# Rendering your list in Jetpack Compose 
 
-Goal: To Simplify Gradle by introducing modules Audience: Someone who has used gradle, but hasn't used modules.
+[1]: https://code.cash.app/gradle-dependency-license-validation
+[2]: https://github.com/cashapp/licensee#usage

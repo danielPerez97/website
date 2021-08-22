@@ -2,7 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const FooterContainer = styled.div`
-  margin-top: auto;
+  position: sticky;
+  bottom: 0;
   height: 60px;
 `;
 

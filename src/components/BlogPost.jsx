@@ -6,7 +6,7 @@ import styled from 'styled-components';
 const BlogPostContainer = styled.div`
   left: 10pc;
   display: flex;
-  width: 600px;
+  width: 100%;
   flex-direction: row;
   justify-content: start;
   align-items: flex-start;

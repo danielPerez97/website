@@ -10,10 +10,8 @@ import Footer from './components/Footer';
 import ProjectCard from './components/ProjectCard';
 
 const ContentContainer = styled.div`
-  display: flex;
-  flex-flow: column;
-  flex-direction: column;
-  height: calc(100vh - 120px);
+  flex: 1 0 auto;
+  height: 100%;
   justify-content: start;
   align-items: start;
   width: calc(100vw - 80px);
@@ -22,6 +20,7 @@ const ContentContainer = styled.div`
 const AppContainer = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   min-height: 100vh;
 `;
 
