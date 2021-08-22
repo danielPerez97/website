@@ -4,20 +4,22 @@ import PropTypes from 'prop-types';
 import styled from 'styled-components';
 
 const BlogPostContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px;
-  `;
+  left: 10pc;
+  display: flex;
+  width: 600px;
+  flex-direction: row;
+  justify-content: start;
+  align-items: flex-start;
+  padding: 10px;
+`;
 
 const MarkDownContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    font-family: monospace;
-  `;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: flex-start;
+  font-family: monospace;
+`;
 
 const BlogPost = ({ body }) => (
   <BlogPostContainer>

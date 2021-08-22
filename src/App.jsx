@@ -3,20 +3,27 @@ import { Route, BrowserRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import GradleBasics from './posts/GradleBasics.md';
 import JetpackMusings from './posts/JetpackMusings.md';
-import AboutMe from './components/AboutMe';
 import Header from './components/Header';
 import BlogList from './components/BlogList';
 import BlogPost from './components/BlogPost';
 import Footer from './components/Footer';
+import ProjectCard from './components/ProjectCard';
 
-const Container = styled.div`
-    display: flex;
-    flex-Direction: column;
-    height: calc(100vh - 120px);
-    justify-content: center;
-    align-items: center;
-    width: calc(100vw - 80px);
-  `;
+const ContentContainer = styled.div`
+  display: flex;
+  flex-flow: column;
+  flex-direction: column;
+  height: calc(100vh - 120px);
+  justify-content: start;
+  align-items: start;
+  width: calc(100vw - 80px);
+`;
+
+const AppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
 
 function App() {
   const [posts, setPosts] = useState([]);
@@ -44,11 +51,20 @@ function App() {
   }, []);
 
   return (
-    <div>
+    <AppContainer>
       <BrowserRouter>
         <Header />
-        <Container>
-          <Route path="/" exact component={AboutMe} />
+        <ContentContainer>
+          <Route
+            path="/"
+            exact
+            render={() => (
+              <ProjectCard
+                projectName="Evence"
+                projectDescription="Evence is an Android app to quickly create and scan QR codes for event details."
+              />
+            )}
+          />
           <Route
             path="/blog"
             exact
@@ -63,10 +79,10 @@ function App() {
               />
             )}
           />
-        </Container>
+        </ContentContainer>
         <Footer />
       </BrowserRouter>
-    </div>
+    </AppContainer>
   );
 }
 
