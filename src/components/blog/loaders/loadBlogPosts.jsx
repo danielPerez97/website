@@ -1,5 +1,5 @@
-import GradleBasics from '../../posts/GradleBasics.md';
-import JetpackMusings from '../../posts/JetpackMusings.md';
+import GradleBasics from '../../../posts/GradleBasics.md';
+import JetpackMusings from '../../../posts/JetpackMusings.md';
 
 export async function loadBlogPosts() {
   const gradleBasicsText = (await (await fetch(GradleBasics)).text());

@@ -6,7 +6,7 @@ import {
 import './index.css';
 import Root from './routes/root';
 import BlogList from './components/blog/BlogList';
-import { loadBlogPosts as postsLoader } from './components/loaders/loadBlogPosts';
+import { loadBlogPosts as postsLoader } from './components/blog/loaders/loadBlogPosts';
 import ErrorPage from './ErrorPage';
 import App from './App';
 
