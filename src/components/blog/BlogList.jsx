@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
-import { ContentContainer } from '../App';
+import { ContentContainer } from '../../App';
 
 const UnorderedList = styled.ul`
   list-style-type: none;
