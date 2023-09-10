@@ -22,4 +22,4 @@ export async function loadBlogPosts() {
   return { blogs };
 }
 
-export default loadBlogPosts();
+export default loadBlogPosts;

@@ -17,6 +17,7 @@ const ListItem = styled.li`
 
 function BlogList() {
   const { blogs } = useLoaderData();
+  console.log(`blogs: ${blogs}`);
   return (
     <ContentContainer>
       <div>

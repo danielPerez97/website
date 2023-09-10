@@ -8,6 +8,7 @@ import Root from './routes/root';
 import BlogList from './components/BlogList';
 import { loadBlogPosts as postsLoader } from './components/loaders/loadBlogPosts';
 import ErrorPage from './ErrorPage';
+import App from './App';
 
 const container = document.getElementById('#root');
 const router = createBrowserRouter([
@@ -20,6 +21,11 @@ const router = createBrowserRouter([
         path: '/blog',
         element: <BlogList />,
         loader: postsLoader,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: '/',
+        element: <App />,
         errorElement: <ErrorPage />,
       },
     ],
