@@ -45,14 +45,16 @@ const StyledA = styled.a`
 //     ${BaseStyledLinkAndP}
 //   `;
 
-const Footer = () => (
-  <FooterContainer>
-    <StyledUnorderedList>
-      <ListItem>
-        <StyledA>Contact Me</StyledA>
-      </ListItem>
-    </StyledUnorderedList>
-  </FooterContainer>
-);
+function Footer() {
+  return (
+    <FooterContainer>
+      <StyledUnorderedList>
+        <ListItem>
+          <StyledA>Contact Me</StyledA>
+        </ListItem>
+      </StyledUnorderedList>
+    </FooterContainer>
+  );
+}
 
 export default Footer;

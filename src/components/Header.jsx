@@ -45,23 +45,25 @@ const StyledLink = styled(Link)`
   ${BaseStyledLinkAndP};
 `;
 
-const Header = () => (
-  <HeaderContainer>
-    <StyledUnorderedList>
-      <ListItem>
-        <StyledLink to="/">Daniel Perez</StyledLink>
-      </ListItem>
-      <ListItem>
-        <StyledLink to="/">About Me</StyledLink>
-      </ListItem>
-      <ListItem>
-        <StyledLink to="/blog">Blog</StyledLink>
-      </ListItem>
-      <ListItem>
-        <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
-      </ListItem>
-    </StyledUnorderedList>
-  </HeaderContainer>
-);
+function Header() {
+  return (
+    <HeaderContainer>
+      <StyledUnorderedList>
+        <ListItem>
+          <StyledLink to="/">Daniel Perez</StyledLink>
+        </ListItem>
+        <ListItem>
+          <StyledLink to="/">About Me</StyledLink>
+        </ListItem>
+        <ListItem>
+          <StyledLink to="/blog">Blog</StyledLink>
+        </ListItem>
+        <ListItem>
+          <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
+        </ListItem>
+      </StyledUnorderedList>
+    </HeaderContainer>
+  );
+}
 
 export default Header;

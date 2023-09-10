@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Link, useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
+import { ContentContainer } from '../App';
 
 const UnorderedList = styled.ul`
   list-style-type: none;
@@ -15,28 +15,26 @@ const ListItem = styled.li`
   padding-bottom: 8px;
 `;
 
-const BlogList = ({ blogs }) => (
-  <div>
-    <UnorderedList>
-      {
-        blogs.map(({
-          id,
-          title,
-        }) => (
-          <ListItem key={id}>
-            <Link to={`/blog/${id}`}>{title}</Link>
-          </ListItem>
-        ))
-      }
-    </UnorderedList>
-  </div>
-);
-
-BlogList.propTypes = {
-  blogs: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.number,
-    title: PropTypes.string,
-  })).isRequired,
-};
+function BlogList() {
+  const { blogs } = useLoaderData();
+  return (
+    <ContentContainer>
+      <div>
+        <UnorderedList>
+          {
+                      blogs.map(({
+                        id,
+                        title,
+                      }) => (
+                        <ListItem key={id}>
+                          <Link to={`/blog/${id}`}>{title}</Link>
+                        </ListItem>
+                      ))
+                  }
+        </UnorderedList>
+      </div>
+    </ContentContainer>
+  );
+}
 
 export default BlogList;

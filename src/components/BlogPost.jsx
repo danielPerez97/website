@@ -21,15 +21,17 @@ const MarkDownContainer = styled.div`
   font-family: monospace;
 `;
 
-const BlogPost = ({ body }) => (
-  <BlogPostContainer>
-    <MarkDownContainer>
-      <ReactMarkdown>
-        {body}
-      </ReactMarkdown>
-    </MarkDownContainer>
-  </BlogPostContainer>
-);
+function BlogPost({ body }) {
+  return (
+    <BlogPostContainer>
+      <MarkDownContainer>
+        <ReactMarkdown>
+          {body}
+        </ReactMarkdown>
+      </MarkDownContainer>
+    </BlogPostContainer>
+  );
+}
 
 BlogPost.propTypes = {
   body: PropTypes.string.isRequired,
