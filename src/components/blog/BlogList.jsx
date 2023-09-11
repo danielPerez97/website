@@ -1,17 +1,10 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
+import BlogCard from './BlogCard';
 
 const UnorderedList = styled.ul`
   list-style-type: none;
-`;
-
-const ListItem = styled.li`
-  list-style-type: none;
-  display: flex;
-  font-family: sans-serif;
-  padding-top: 8px;
-  padding-bottom: 8px;
 `;
 
 function BlogList() {
@@ -21,14 +14,15 @@ function BlogList() {
     <div>
       <UnorderedList>
         {
-                      blogs.map(({
-                        id,
-                        title,
-                      }) => (
-                        <ListItem key={id}>
-                          <Link to={`/blog/${id}`}>{title}</Link>
-                        </ListItem>
-                      ))
+          blogs.map(({
+            id,
+            title,
+            shortDescription,
+          }) => (
+            <BlogCard key={id} title={title} shortDescription={shortDescription}>
+              <Link to={`/blog/${id}`}>{title}</Link>
+            </BlogCard>
+          ))
                   }
       </UnorderedList>
     </div>

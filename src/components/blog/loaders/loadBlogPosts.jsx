@@ -10,11 +10,13 @@ export async function loadBlogPosts() {
     {
       id: 1,
       title: 'Gradle Basics',
+      shortDescription: 'An intro to gradle',
       body: gradleBasicsText,
     },
     {
       id: 2,
       title: 'Musings on Jetpack Compose',
+      shortDescription: 'A few thoughts on Jetpack Compose',
       body: jetpackMusingsText,
     },
   ];
