@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
-import { ContentContainer } from '../../App';
 
 const UnorderedList = styled.ul`
   list-style-type: none;
@@ -19,10 +18,9 @@ function BlogList() {
   const { blogs } = useLoaderData();
   console.log(`blogs: ${blogs}`);
   return (
-    <ContentContainer>
-      <div>
-        <UnorderedList>
-          {
+    <div>
+      <UnorderedList>
+        {
                       blogs.map(({
                         id,
                         title,
@@ -32,9 +30,8 @@ function BlogList() {
                         </ListItem>
                       ))
                   }
-        </UnorderedList>
-      </div>
-    </ContentContainer>
+      </UnorderedList>
+    </div>
   );
 }
 
