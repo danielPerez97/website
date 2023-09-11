@@ -9,10 +9,10 @@ These are valid questions and some that I have quite a bit of experience with no
 In order to answer the first question, it would be helpful if we learned what dependency injection is first.
 
 ## What is Dependency Injection?
-To quote James Shore on his blog, *"The Art of Agile"*, **“Dependency Injection” is a 25-dollar term for a 5-cent concept. 
-"Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**
+To quote James Shore on his blog, *"The Art of Agile"*, "**“Dependency Injection” is a 25-dollar term for a 5-cent concept. 
+"Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**"
 
-**No Really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, mutable members(on a class).
+**No really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, mutable members(on a class).
 
 ```kotlin
 // Dependency Injection with a function
@@ -45,12 +45,12 @@ class Injector(val appOkHttpClient: OkHttpClient)
 
 These are all examples of Dependency Injection and 99% of how it'll be performed with Dagger from a user-perspective.
 
-## Okay, but, *why?*
-Why would we have this syllable-ridden term for such a simple concept? There are very valid reasons for that.
+## Okay, but, *why would I use this pattern?* What are we getting out of it?
+Dependency Injection has quite a few benefits when applied throughout a codebase, but testing will probably be the main
+one you see.
 
 ### Testing
-This is probably the biggest reason you'll see. Using DI consistently helps us write testable code. Suppose you have the following
-code:
+Using DI consistently helps us write testable code. Suppose you have the following class and interface:
 
 ```kotlin
 // Pet.kt
@@ -66,7 +66,7 @@ interface PetDataSource
 Nothing special yet, but here's how we might use it in a `PetListPresenter` class:
 ```kotlin
 // PetListPresenter.kt
-class PetListPresenter(val petDataSource: PetDataSource)
+class PetListPresenter(val petDataSource: PetDataSource) // Constructor Injection
 {
     fun getPetByid(id: Long): Pet? {
         return petDataSource.getPets().find { it.id == id }    
@@ -98,9 +98,10 @@ class PetActivity: AppCompatActivity()
     }
 }
 ```
-Still, nothing special happening yet. All we did was abstract away the *where* the data is coming from. We could have just as easily
+
+Still, nothing special is happening yet. All we did was abstract away *where* the data is coming from. We could have just as easily
 used a `NetworkPetDataSource.kt` to retrieve our pets. However, when it comes time to test `PetListPresenter`, this pattern has a 
-clear benefit: we can pass fakes/mocks into our object under test fairly quickly, especially if we leverage Kotlin's `object` keyword:
+clear benefit: we can pass fakes/mocks into our object under test quickly, especially if we leverage Kotlin's `object` keyword:
 
 ```kotlin
 // TestPetListPresenter.kt
@@ -128,8 +129,9 @@ class TestPetListPresenter
     }
 }
 ```
+
 Since our `PetListPresenter` has no idea where the data is coming from(or knowledge of the implementation), we were able to spin up a `PetDataSource` on the fly
-for our test. We have used the DI pattern to make our testing significantly easier. Consider the case where `PetListDataSource` had defined `SQLitePetDataSource`
+for our test. We have now used the DI pattern to make our testing significantly easier. Consider the case where `PetListDataSource` had defined `SQLitePetDataSource`
 as a constructor parameter:
 
 ```kotlin
@@ -137,12 +139,14 @@ as a constructor parameter:
 class PetListPresenter(val petDataSource: SQLitePetDataSource)
 ```
 
-Then, our test would have had to do a bit more configuration to satisfy the constructor parameter for `SQLitePetDataSource` which might involve
-configuring an SQLite database on the file system then making sure we delete it when we're done so we don't waste computer resources. Yuck.
+Then, our test would have had to do a bit more configuration to satisfy the constructor parameter for `SQLitePetDataSource` 
+which might involve configuring an SQLite database on the file system then making sure we delete it when the tests are done 
+so we don't waste computer resources. Yuck.
 
 ## I see. Dependency Injection is just a software pattern. But how come people use Dagger?
 Dagger is a DI *framework*. It helps you facilitate this pattern in your code by building a graph of your dependencies, calling the constructors *for you*,
 and getting your objects exactly where you need them. In the above example, if one had used Dagger, our `PetActivity` would have looked like this:
+
 ```kotlin
 class PetActivity: AppCompatActivity()
 {
@@ -168,7 +172,7 @@ class Injector(...)
 {
     ...
     fun inject(activity: PetActivity) {
-        // Note: sqlitePetDataSource is a member of this Injector class
+        // Note: sqlitePetDataSource could be a member of this Injector class, or it might be provided by a factory
         activity.petListPresenter = PetListPresenter(sqlitePetDataSource) // <- Here we set the member, or "inject" it
     }
 }
@@ -180,21 +184,22 @@ Let's pause for a moment and look at our chain of dependencies for `PetListPrese
 Dagger takes care of this entire chain for you so your `PetActivity` doesn't have to care about `PetDb` and 
 `SQLitePetDataSource`, it can focus entirely on `PetListPresenter`. 
 
-This is generally what DI Frameworks do.
+Satisfying dependency chains so you can focus on only the object you need is what DI frameworks are great at.
 
 ## I see. Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
-Unfortunately, we do. A history lesson might be useful here.
+Unfortunately, we do. Lets take a look at the history of DI frameworks in Java to understand why.
 
 Once upon a time, Dependency Injection frameworks like [Guice](1) used reflection to achieve their DI. At the time, these DI frameworks
 weren't built with mobile devices in mind, they were built for servers. Reflection has a runtime cost in performance, but it's
 an appropriate tradeoff for a server environment. When mobile devices came along, this was no longer the case and led to
 app slowdowns. We needed a DI framework that was blazing fast for mobile devices but used less reflection.
 
-[Dagger 1](1), originally created by Square(Block now), used a mixture of code generation and reflection to achieve its' DI. At 
-compile-time, the injecting code was generated by using annotations (@Inject) that the Dagger compiler would look at. 
-It worked, but the reflection that was hanging around left a desire for more. What if we could make a DI framework that completely 
-ignored reflection and just used code generation at compile-time? This would also yield the advantage of failing extremely early 
-in case the framework couldn't satisfy a dependency instead of throwing an exception at runtime.
+[Dagger 1](1), originally created by Square(Block now), used a mixture of code generation and reflection to achieve DI. At 
+compile-time, the injecting code was generated by using annotations (@Inject) in your own code that the Dagger compiler would look at
+and process. It worked, but the reflection that was hanging around left a desire for more. What if we could make a DI framework 
+that completely ignored reflection and just used code generation at compile-time? This would also yield a major advantage for
+Dagger 2: failing early. When a dependency couldn't be satisfied(it wasn't on the DI frameworks graph), developers would
+find out at runtime what had happened instead of compile-time. Early failures lead to faster fixes.
 
 Thus, Dagger 2 was born. Dagger 2 *ignored reflection entirely*. Instead of making your users pay a performance cost, our Gradle 
 builds would eat the cost in build time and generate injecting code at compile time. It was now possible to use a Dependency Injection 
@@ -213,10 +218,9 @@ It isn't all sunshine and rainbows. One of the most obvious tradeoffs for code g
 the generated code somewhere instead of it being automatic, like Guice.
 
 We also cannot inject private members using code generation, but reflection can. In some ways, Dagger 2 can be harder to use
-than a reflection-based DI framework.
+than a reflection-based DI framework. However, these sacrifices afford us an extremely fast dependency injector that's appropriate for Android. 
 
-However, these sacrifices afford us an extremely fast dependency injector that's appropriate for Android. In the next article,
-we'll discuss how to configure Dagger 2 in an Android app.
+In the next article, we'll discuss how to configure Dagger 2 in an Android app.
 
 [1]: https://github.com/google/guice
 [2]: https://github.com/square/dagger
