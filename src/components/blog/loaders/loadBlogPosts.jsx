@@ -3,7 +3,6 @@ import DaggerByExample from '../../../posts/PragmaticDaggerArticle1.md';
 export async function loadBlogPosts() {
   const daggerByExampleText = (await (await fetch(DaggerByExample)).text());
   // eslint-disable-next-line no-console
-  console.log('loadBlogPosts() called');
   const blogs = [
     {
       id: 1,
