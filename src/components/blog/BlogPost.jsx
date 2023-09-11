@@ -21,7 +21,6 @@ const MarkDownContainer = styled.div`
   flex-direction: column;
   justify-content: start;
   align-items: flex-start;
-  font-family: monospace;
 `;
 
 function BlogPost() {
