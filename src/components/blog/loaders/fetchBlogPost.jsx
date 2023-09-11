@@ -1,8 +1,8 @@
-import loadBlogPosts from './loadBlogPosts';
+import { loadBlogPosts as postsLoader } from './loadBlogPosts';
 
 export const blogPostLoader = async ({ params }) => {
-  const posts = await loadBlogPosts();
-  return posts.find((post) => post.id === parseInt(params.postId.params.id, 10)).body;
+  const posts = (await postsLoader()).blogs;
+  return posts.find((post) => post.id === parseInt(params.postId, 10));
 };
 
 export default blogPostLoader;

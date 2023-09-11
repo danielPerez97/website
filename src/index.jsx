@@ -7,8 +7,10 @@ import './index.css';
 import Root from './routes/root';
 import BlogList from './components/blog/BlogList';
 import { loadBlogPosts as postsLoader } from './components/blog/loaders/loadBlogPosts';
+import { blogPostLoader as postLoader } from './components/blog/loaders/fetchBlogPost';
 import ErrorPage from './ErrorPage';
 import App from './App';
+import BlogPost from './components/blog/BlogPost';
 
 const container = document.getElementById('#root');
 const router = createBrowserRouter([
@@ -18,14 +20,20 @@ const router = createBrowserRouter([
     errorElement: <ErrorPage />,
     children: [
       {
+        path: '/',
+        element: <App />,
+        errorElement: <ErrorPage />,
+      },
+      {
         path: '/blog',
         element: <BlogList />,
         loader: postsLoader,
         errorElement: <ErrorPage />,
       },
       {
-        path: '/',
-        element: <App />,
+        path: '/blog/:postId',
+        element: <BlogPost />,
+        loader: postLoader,
         errorElement: <ErrorPage />,
       },
     ],

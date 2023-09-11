@@ -9,7 +9,6 @@ const UnorderedList = styled.ul`
 
 function BlogList() {
   const { blogs } = useLoaderData();
-  console.log(`blogs: ${blogs}`);
   return (
     <div>
       <UnorderedList>
@@ -19,7 +18,7 @@ function BlogList() {
             title,
             shortDescription,
           }) => (
-            <BlogCard key={id} title={title} shortDescription={shortDescription}>
+            <BlogCard key={id} id={id} title={title} shortDescription={shortDescription}>
               <Link to={`/blog/${id}`}>{title}</Link>
             </BlogCard>
           ))

@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { useLoaderData } from 'react-router-dom';
 
 const BlogPostContainer = styled.div`
   left: 10pc;
@@ -21,7 +21,8 @@ const MarkDownContainer = styled.div`
   font-family: monospace;
 `;
 
-function BlogPost({ body }) {
+function BlogPost() {
+  const { body } = useLoaderData();
   return (
     <BlogPostContainer>
       <MarkDownContainer>
@@ -32,9 +33,5 @@ function BlogPost({ body }) {
     </BlogPostContainer>
   );
 }
-
-BlogPost.propTypes = {
-  body: PropTypes.string.isRequired,
-};
 
 export default BlogPost;
