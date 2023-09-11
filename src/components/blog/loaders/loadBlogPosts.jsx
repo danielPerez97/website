@@ -1,23 +1,15 @@
-import GradleBasics from '../../../posts/GradleBasics.md';
-import JetpackMusings from '../../../posts/JetpackMusings.md';
+import DaggerByExample from '../../../posts/PragmaticDaggerArticle1.md';
 
 export async function loadBlogPosts() {
-  const gradleBasicsText = (await (await fetch(GradleBasics)).text());
-  const jetpackMusingsText = (await (await fetch(JetpackMusings)).text());
+  const daggerByExampleText = (await (await fetch(DaggerByExample)).text());
   // eslint-disable-next-line no-console
   console.log('loadBlogPosts() called');
   const blogs = [
     {
       id: 1,
-      title: 'Gradle Basics',
-      shortDescription: 'An intro to gradle',
-      body: gradleBasicsText,
-    },
-    {
-      id: 2,
-      title: 'Musings on Jetpack Compose',
-      shortDescription: 'A few thoughts on Jetpack Compose',
-      body: jetpackMusingsText,
+      title: 'A Pragmatic Introduction To Dagger on Android',
+      shortDescription: 'Learning to use Dagger for the first time, thermosiphon and car engine free.',
+      body: daggerByExampleText,
     },
   ];
 
