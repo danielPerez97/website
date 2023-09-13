@@ -1,16 +1,23 @@
-# A Pragmatic Introduction To Dagger on Android
+# A Pragmatic Introduction To Dagger on Android: Part 1
 If you're like me starting out with Dagger, you may have had thoughts such as:
-**"What is Dagger?"**,
-**"Why would I ever use this?"**,
-**"Is it actually this hard to set up?"**
 
-These are valid questions and some that I have quite a bit of experience with now up this point.
+***"What is Dagger?"***
 
-In order to answer the first question, it would be helpful if we learned what dependency injection is first.
+***"Why would I ever use this?"***
+
+***"Is it actually this hard to set up?"***
+
+
+I'll attempt to answer all of these questions in this article before showing you how to implement Dagger in your own 
+Android app in Part 2.
+
+In order to answer **"What is Dagger?"**, it would be helpful if we learned what dependency injection is first.
 
 ## What is Dependency Injection?
-To quote James Shore on his blog, *"The Art of Agile"*, "**“Dependency Injection” is a 25-dollar term for a 5-cent concept. 
-"Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**"
+James Shore worded it perfectly on his blog, *"The Art of Agile"*: 
+
+**“Dependency Injection” is a 25-dollar term for a 5-cent concept. 
+"Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**
 
 **No really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, mutable members(on a class).
 
@@ -214,13 +221,27 @@ on Android goes. Since we can't have custom constructors for Fragments and Activ
 this means we have to use Members Injection(not preferred).
 
 ## Reflection Vs Code Generation
-It isn't all sunshine and rainbows. One of the most obvious tradeoffs for code generation vs reflection was we have to call 
-the generated code somewhere instead of it being automatic, like Guice.
+It isn't all sunshine and rainbows. One tradeoff for code generation vs reflection was we have to call the generated 
+code somewhere instead of a more automatic-feeling solution, like Guice or Spring Dependency Injection.
 
 We also cannot inject private members using code generation, but reflection can. In some ways, Dagger 2 can be harder to use
 than a reflection-based DI framework. However, these sacrifices afford us an extremely fast dependency injector that's appropriate for Android. 
 
-In the next article, we'll discuss how to configure Dagger 2 in an Android app.
+## Wrapping up
+Let's revisit those 3 questions from the beginning of the article and give an answer for each of them now:
+
+***"What is Dagger?"***
+Dagger is a Dependency Injection Framework and there are more like it including Guice and Spring Dependency Injection. 
+
+***"Why would I ever use this?"***
+To help you facilitate the dependency injection pattern in your code, which helps you test and decouple your code.
+
+***"Is it actually this hard to set up?"***
+Yeah, I'd go ahead and say Dagger 2 is a bit hard to set up, but that's because it's based on 100% code generation instead
+of reflection. We make this tradeoff for performance gains on mobile devices.
+
+## Part 2
+Stay tuned for Part 2 where we'll discuss how to configure Dagger 2 in an Android app.
 
 [1]: https://github.com/google/guice
 [2]: https://github.com/square/dagger
