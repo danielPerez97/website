@@ -1,15 +1,16 @@
 import React from 'react';
-import ProjectCard from './components/ProjectCard';
+import styled from 'styled-components';
+
+const Container = styled.div`
+  padding: 10px
+`;
 
 function App() {
   return (
-    <div>
-      <div>hello</div>
-      <ProjectCard
-        projectName="Evence"
-        projectDescription="Evence is an Android app to quickly create and scan QR codes for event details."
-      />
-    </div>
+    <Container>
+      <div>SITE UNDER CONSTRUCTION</div>
+      <div>My name is Daniel Perez. I am an Android Developer.</div>
+    </Container>
   );
 }
 
