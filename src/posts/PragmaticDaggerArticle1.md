@@ -22,14 +22,15 @@ James Shore [worded it perfectly][1] on his blog, *"The Art of Agile"*:
 "Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**
 
 **No really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, and setting 
-mutable members(on a class).
+mutable members(on a class). 
+
+In the next code sample, there are three demonstrations of different kinds of Dependency Injection:
+
+* Constructor Injection
+* Method Injection
+* Field Injection
 
 ```kotlin
-// Dependency Injection with a function
-fun setPet(pet: Pet) {
-    this.pet = pet
-}
-
 // Constructor Injection
 class NetworkHandler(val client: OkHttpClient)
 
@@ -38,7 +39,12 @@ fun doSomething() {
     val networkHandler = NetworkHandler(client) // Here we "inject" an OkHttpClient by passing a parameter to the constructor
 }
 
-// Member Injection
+// Method Injection
+fun setPet(pet: Pet) {
+    this.pet = pet
+}
+
+// Field Injection(can also be called Member's Injection)
 class MyActivity()
 {
     lateinit var okHttpClient: OkHttpClient // <- Public, mutable member
@@ -55,10 +61,11 @@ class Injector(val appOkHttpClient: OkHttpClient)
 These are all examples of Dependency Injection in object-oriented programming.
 
 ## Okay, but, *why would I use this pattern?* What are we getting out of it?
-Dependency Injection has quite a few benefits when applied throughout a codebase, but testing will probably be the main
-one you see.
+Dependency Injection has quite a few benefits when applied throughout a codebase, but testing is one of the most talked 
+about especially with discussion around Dagger.
 
-***Note: From this point forward I'll shorthand Dependency Injection with "DI"***
+***Note: From this point forward I will shorthand Dependency Injection with "DI".***
+
 ### Testing
 Using DI consistently helps us write testable code. Suppose you have the following class and interface:
 
@@ -196,7 +203,7 @@ Dagger takes care of this entire chain for you so your `PetActivity` doesn't hav
 
 Satisfying dependency chains so you can focus on only the object you need is what DI frameworks can be great for.
 
-## I see. Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
+## Okay, so Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
 Unfortunately, we do.* Lets take a look at the history of DI frameworks in Java to understand why.
 
 Once upon a time, Dependency Injection frameworks like [Guice](2)(created by Bob Lee) used reflection to achieve their DI. At 
