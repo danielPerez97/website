@@ -56,6 +56,7 @@ These are all examples of Dependency Injection and 99% of how it'll be performed
 Dependency Injection has quite a few benefits when applied throughout a codebase, but testing will probably be the main
 one you see.
 
+***Note: From this point forward I'll shorthand Dependency Injection with "DI"***
 ### Testing
 Using DI consistently helps us write testable code. Suppose you have the following class and interface:
 
