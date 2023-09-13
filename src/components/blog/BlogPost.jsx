@@ -9,7 +9,7 @@ import { useLoaderData } from 'react-router-dom';
 const BlogPostContainer = styled.div`
   left: 10pc;
   display: flex;
-  width: 100%;
+  max-width: 100vw;
   flex-direction: row;
   justify-content: start;
   align-items: flex-start;
@@ -23,12 +23,16 @@ const MarkDownContainer = styled.div`
   align-items: flex-start;
 `;
 
+const StyledReactMarkdown = styled(ReactMarkdown)`
+  max-width: 80vw;
+`;
+
 function BlogPost() {
   const { body } = useLoaderData();
   return (
     <BlogPostContainer>
       <MarkDownContainer>
-        <ReactMarkdown components={{
+        <StyledReactMarkdown components={{
           // eslint-disable-next-line react/no-unstable-nested-components
           code({
             node, inline, className, children, ...props
@@ -51,7 +55,7 @@ function BlogPost() {
         }}
         >
           {body}
-        </ReactMarkdown>
+        </StyledReactMarkdown>
       </MarkDownContainer>
     </BlogPostContainer>
   );
