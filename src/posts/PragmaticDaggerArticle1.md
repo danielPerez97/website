@@ -19,7 +19,8 @@ James Shore worded it perfectly on his blog, *"The Art of Agile"*:
 **“Dependency Injection” is a 25-dollar term for a 5-cent concept. 
 "Dependency Injection" sounds scary, but it refers to an extremely simple concept we're all familiar with: taking parameters.**
 
-**No really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, mutable members(on a class).
+**No really**, it's just taking parameters. Taking parameters in functions, taking parameters in constructors, and setting 
+mutable members(on a class).
 
 ```kotlin
 // Dependency Injection with a function
