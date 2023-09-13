@@ -197,7 +197,7 @@ Satisfying dependency chains so you can focus on only the object you need is wha
 ## I see. Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
 Unfortunately, we do. Lets take a look at the history of DI frameworks in Java to understand why.
 
-Once upon a time, Dependency Injection frameworks like [Guice](1) used reflection to achieve their DI. At the time, these DI frameworks
+Once upon a time, Dependency Injection frameworks like [Guice](1)(created by Bob Lee) used reflection to achieve their DI. At the time, these DI frameworks
 weren't built with mobile devices in mind, they were built for servers. Reflection has a runtime cost in performance, but it's
 an appropriate tradeoff for a server environment. When mobile devices came along, this was no longer the case and led to
 app slowdowns. We needed a DI framework that was blazing fast for mobile devices but used less reflection.
@@ -231,13 +231,13 @@ than a reflection-based DI framework. However, these sacrifices afford us an ext
 ## Wrapping up
 Let's revisit those 3 questions from the beginning of the article and give an answer for each of them now:
 
-***"What is Dagger?"***
+***"What is Dagger?"***  
 Dagger is a Dependency Injection Framework and there are more like it including Guice and Spring Dependency Injection. 
 
-***"Why would I ever use this?"***
+***"Why would I ever use this?"***  
 To help you facilitate the dependency injection pattern in your code, which helps you test and decouple your code.
 
-***"Is it actually this hard to set up?"***
+***"Is it actually this hard to set up?"***  
 Yeah, I'd go ahead and say Dagger 2 is a bit hard to set up, but that's because it's based on 100% code generation instead
 of reflection. We make this tradeoff for performance gains on mobile devices.
 
