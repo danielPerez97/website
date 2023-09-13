@@ -197,7 +197,7 @@ Dagger takes care of this entire chain for you so your `PetActivity` doesn't hav
 Satisfying dependency chains so you can focus on only the object you need is what DI frameworks can be great for.
 
 ## I see. Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
-Unfortunately, we do. Lets take a look at the history of DI frameworks in Java to understand why.
+Unfortunately, we do.* Lets take a look at the history of DI frameworks in Java to understand why.
 
 Once upon a time, Dependency Injection frameworks like [Guice](2)(created by Bob Lee) used reflection to achieve their DI. At 
 the time, these DI frameworks weren't built with mobile devices in mind, they were built for servers. Reflection has a runtime 
@@ -247,6 +247,12 @@ instead of reflection. We make this tradeoff for major performance gains on mobi
 ## Part 2
 Stay tuned for Part 2 where we'll discuss how to configure Dagger 2 in an Android app.
 
+
+*This isn't to say we can't be more clever about it. [Slack did something very cool][4] to largely abstract this away
+using an extension to Dagger called [Anvil][5].
+
 [1]: http://www.jamesshore.com/v2/blog/2006/dependency-injection-demystified
 [2]: https://github.com/google/guice
 [3]: https://github.com/square/dagger
+[4]: https://slack.engineering/extending-anvil-for-fun-and-profit/
+[5]: https://github.com/square/anvil
