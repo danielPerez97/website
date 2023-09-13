@@ -238,11 +238,11 @@ Let's revisit those 3 questions from the beginning of the article and give an an
 Dagger is a Dependency Injection Framework and there are more like it including Guice and Spring Dependency Injection. 
 
 ***"Why would I ever use this?"***  
-To help you facilitate the dependency injection pattern in your code, which helps you test and decouple your code.
+To help you facilitate the Dependency Injection pattern in your code, which helps you test and decouple your code.
 
 ***"Is it actually this hard to set up?"***  
-Yeah, I'd go ahead and say Dagger 2 is a bit hard to set up, but that's because it's based on 100% code generation instead
-of reflection. We make this tradeoff for performance gains on mobile devices.
+Yeah, I'd go ahead and say Dagger 2 is a bit hard to set up, but that's partly because it's based on 100% code generation 
+instead of reflection. We make this tradeoff for major performance gains on mobile devices.
 
 ## Part 2
 Stay tuned for Part 2 where we'll discuss how to configure Dagger 2 in an Android app.
