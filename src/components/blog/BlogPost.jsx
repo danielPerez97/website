@@ -24,7 +24,7 @@ const MarkDownContainer = styled.div`
 `;
 
 const StyledReactMarkdown = styled(ReactMarkdown)`
-  max-width: 80vw;
+  max-width: 100vw;
 `;
 
 function BlogPost() {
