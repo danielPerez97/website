@@ -28,7 +28,7 @@ const StyledReactMarkdown = styled(ReactMarkdown)`
 `;
 
 function BlogPost() {
-  const { body } = useLoaderData();
+  const { shortDescription, publishDate, body } = useLoaderData();
   return (
     <BlogPostContainer>
       <MarkDownContainer>
@@ -56,6 +56,7 @@ function BlogPost() {
         >
           {body}
         </StyledReactMarkdown>
+        <div>Published on {publishDate} by Daniel Perez</div>
       </MarkDownContainer>
     </BlogPostContainer>
   );

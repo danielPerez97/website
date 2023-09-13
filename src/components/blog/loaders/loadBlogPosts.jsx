@@ -8,6 +8,7 @@ export async function loadBlogPosts() {
       id: 1,
       title: 'A Pragmatic Introduction To Dagger on Android',
       shortDescription: 'Learning to use Dagger for the first time, thermosiphon and car engine free.',
+      publishDate: '9/13/2023',
       body: daggerByExampleText,
     },
   ];
