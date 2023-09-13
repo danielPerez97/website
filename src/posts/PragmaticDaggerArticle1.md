@@ -28,7 +28,6 @@ fun add(a: Int, b: Int): Int {
     return a + b
 }
 
-// NetworkHandler.kt
 // Constructor Injection
 class NetworkHandler(val client: OkHttpClient)
 
