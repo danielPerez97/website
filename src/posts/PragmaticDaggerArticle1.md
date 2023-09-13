@@ -1,5 +1,7 @@
 # A Pragmatic Introduction To Dagger on Android: Part 1
-If you're like me starting out with Dagger, you may have had thoughts such as:
+Dagger 2 is one of the most infamous tools in Android dev and yet, one of the most indispensable. Newcomers have struggled
+to understand why it's used, what Dependency Injection is, and how to set it up in their own projects. If you are currently
+struggling with this topic, you may share in some of these thoughts I used to have:
 
 ***"What is Dagger?"***
 
@@ -8,7 +10,7 @@ If you're like me starting out with Dagger, you may have had thoughts such as:
 ***"Is it actually this hard to set up?"***
 
 
-I'll attempt to answer all of these questions in this article before showing you how to implement Dagger in your own 
+In this article, I'll attempt to answer all of these questions before showing you how to implement Dagger in your own 
 Android app in Part 2.
 
 In order to answer **"What is Dagger?"**, it would be helpful if we learned what dependency injection is first.
