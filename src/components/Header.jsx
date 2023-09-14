@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom';
 import styled, { css } from 'styled-components';
 
 const HeaderContainer = styled.div`
-  position: sticky;
   top: 0;
   height: 60px;
+  flex-shrink: 0;
 `;
 
 const StyledUnorderedList = styled.ul`

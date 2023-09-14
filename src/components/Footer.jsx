@@ -2,8 +2,8 @@ import React from 'react';
 import styled, { css } from 'styled-components';
 
 const FooterContainer = styled.div`
-  bottom: 0;
   height: 60px;
+  flex: 0;
 `;
 
 const StyledUnorderedList = styled.ul`
