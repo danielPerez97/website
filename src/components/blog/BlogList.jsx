@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link, useLoaderData } from 'react-router-dom';
+import { useLoaderData } from 'react-router-dom';
 import styled from 'styled-components';
 import BlogCard from './BlogCard';
 
@@ -18,9 +18,7 @@ function BlogList() {
             title,
             shortDescription,
           }) => (
-            <BlogCard key={id} id={id} title={title} shortDescription={shortDescription}>
-              <Link to={`/blog/${id}`}>{title}</Link>
-            </BlogCard>
+            <BlogCard key={id} id={id} title={title} shortDescription={shortDescription} />
           ))
                   }
       </UnorderedList>
