@@ -4,18 +4,13 @@ import styled from 'styled-components';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-const AppContainer = styled.div`
-  height: 100%;
-  width: 100%;
-`;
-
 const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
 `;
 
-const ContentContainer = styled(Outlet)`
+const ContentContainer = styled.div`
   flex-grow: 1;
   width: 100%;
 `;
@@ -31,13 +26,13 @@ const StyledFooter = styled(Footer)`
 function Root() {
   return (
     <React.StrictMode>
-      <AppContainer>
-        <PageContainer>
-          <Header />
-          <ContentContainer />
-          <StyledFooter />
-        </PageContainer>
-      </AppContainer>
+      <PageContainer>
+        <Header />
+        <ContentContainer>
+          <Outlet />
+        </ContentContainer>
+        <StyledFooter />
+      </PageContainer>
     </React.StrictMode>
   );
 }
