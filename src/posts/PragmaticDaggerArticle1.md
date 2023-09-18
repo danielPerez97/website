@@ -44,7 +44,7 @@ fun setPet(pet: Pet) {
     this.pet = pet
 }
 
-// Field Injection(can also be called Member's Injection)
+// Members Injection
 class MyActivity()
 {
     lateinit var okHttpClient: OkHttpClient // <- Public, mutable member
