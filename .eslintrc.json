@@ -4,8 +4,7 @@
     "es2021": true
   },
   "extends": [
-    "plugin:react/recommended",
-    "airbnb"
+    "plugin:react/recommended"
   ],
   "parserOptions": {
     "ecmaFeatures": {
@@ -18,5 +17,16 @@
     "react"
   ],
   "rules": {
+    "react/jsx-filename-extension": [
+      2,
+      {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    ]
   }
 }

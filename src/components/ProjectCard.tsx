@@ -1,5 +1,4 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { FC } from 'react';
 import styled from 'styled-components';
 
 const CardContainer = styled.div`
@@ -23,10 +22,15 @@ const ProjectDescription = styled.div`
   margin-left: 0px;
 `;
 
-function ProjectCard({
+interface ProjectCardProps {
+    projectName: string,
+    projectDescription: string,
+}
+
+const ProjectCard: FC<ProjectCardProps> = ({
   projectName,
   projectDescription,
-}) {
+}) => {
   return (
     <CardContainer>
       <ProjectName>
@@ -38,10 +42,5 @@ function ProjectCard({
     </CardContainer>
   );
 }
-
-ProjectCard.propTypes = {
-  projectName: PropTypes.string.isRequired,
-  projectDescription: PropTypes.string.isRequired,
-};
 
 export default ProjectCard;
