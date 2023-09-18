@@ -237,7 +237,7 @@ Stay tuned for Part 2 where we'll discuss how to configure Dagger 2 in an Androi
 
 ## Notes
 
-#### "Yes. It is imperative that we call Dagger's generated code *somewhere* for every object we'd like to retrieve from the Dagger graph.*"
+#### "Yes. It is imperative that we call Dagger's generated code *somewhere* for every object we'd like to retrieve from the Dagger graph."
 * This isn't to say we can't be more clever about calling our `MembersInjector`'s. [Slack largely hid this][4] by using 
 an extension to Dagger called [Anvil][5].
 
