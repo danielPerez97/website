@@ -16,4 +16,5 @@ function AboutMe() {
   );
 }
 
+// noinspection JSUnusedGlobalSymbols
 export default AboutMe;
