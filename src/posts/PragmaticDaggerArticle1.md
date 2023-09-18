@@ -209,8 +209,8 @@ the Dagger graph.* In the case of Members Injection, something called a `Members
 object whose members are annotated with `@Inject`. We must call this generated `MembersInjector` in order to inject
 our objects.
 
-In the case of Android Framework types like Activity, you cannot use constructor injection** because the Android OS will 
-create these objects, not Dagger. Hence, Members Injection becomes the next best option.
+In the case of Android Framework types like Activity, you cannot use constructor injection** because the Android OS will
+be creating these objects, not Dagger. Hence, Members Injection becomes the next best option.
 
 ## Reflection Vs Code Generation
 It isn't all sunshine and rainbows. One tradeoff for code generation vs reflection was we have to call the generated 
