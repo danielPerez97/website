@@ -13,6 +13,7 @@ const PageContainer = styled.div`
 const ContentContainer = styled.div`
   flex-grow: 1;
   width: 100%;
+  background: lightgrey;
 `;
 
 const StyledFooter = styled(Footer)`
