@@ -1,5 +1,5 @@
 # A Pragmatic Introduction To Dagger on Android Part 1: Why use Dagger?
-Dagger 2 is one of the most infamous tools in Android development and yet, one of the most indispensable. Newcomers have struggled
+Dagger 2 is one of the most infamous tools in Android development and yet one of the most indispensable. Newcomers have struggled
 to understand why it's used, what Dependency Injection is, and how to set it up in their own projects. If you are currently
 struggling with this topic, you may share in some of these thoughts I used to have:
 
@@ -156,7 +156,7 @@ as a constructor parameter:
 class PetListPresenter(val petDataSource: SQLitePetDataSource)
 ```
 
-In this case, our test would have had to do a bit more configuration to satisfy the constructor parameter for `SQLitePetDataSource` 
+In this case, our test would have had to do a bit more configuration to satisfy the constructor parameter for `SQLitePetDataSource`, 
 which might involve configuring an SQLite database on the file system then making sure we delete it when the tests are done 
 so we don't waste computer resources. Yuck.
 
@@ -199,9 +199,9 @@ Let's pause for a moment and look at our chain of dependencies for `PetListPrese
 `PetListPresenter` -> `SQLitePetDataSource` -> `PetDb`
 
 Dagger takes care of this entire chain for you so your `PetActivity` doesn't have to care about `PetDb` and 
-`SQLitePetDataSource`, it can focus entirely on `PetListPresenter`. 
+`SQLitePetDataSource`. It can focus entirely on `PetListPresenter`. 
 
-Satisfying dependency chains so you can focus on only the object you need is what DI frameworks can be great for.
+Satisfying dependency chains so you can focus on only the object you need is what DI frameworks are great for.
 
 ## Okay, so Dagger is a DI Framework. But do we have to call `getInjector().inject(this)` all the time?
 Yes. It is imperative that we call Dagger's generated code *somewhere* for every object we'd like to retrieve from 
@@ -213,7 +213,7 @@ In the case of Android Framework types like Activity, you cannot use constructor
 be creating these objects, not Dagger. Hence, Members Injection becomes the next best option.
 
 ## Reflection Vs Code Generation
-It isn't all sunshine and rainbows. One tradeoff for code generation vs reflection was we have to call the generated 
+It isn't all sunshine and rainbows. One tradeoff for code generation vs reflection is that we have to call the generated 
 code somewhere instead of a more automatic-feeling solution, like Guice or Spring Dependency Injection.
 
 We also cannot inject private members using code generation, but reflection can. In some ways, Dagger 2 can be harder to use
@@ -223,7 +223,7 @@ than a reflection-based DI framework. However, these sacrifices afford us an ext
 Let's revisit those 3 questions from the beginning of the article and give an answer for each of them now:
 
 ***"What is Dagger?"***  
-Dagger is a Dependency Injection Framework and there are more like it including Guice and Spring Dependency Injection. 
+Dagger is a Dependency Injection Framework, and there are more like it including Guice and Spring Dependency Injection. 
 
 ***"Why would I ever use this?"***  
 To help you facilitate the Dependency Injection pattern in your code, which helps you test and decouple your code.
