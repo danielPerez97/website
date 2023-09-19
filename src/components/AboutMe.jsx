@@ -18,14 +18,20 @@ const Content = styled.div`
   width: 400px;
 `;
 
+const CenteredText = styled.div`
+  word-wrap: break-word;
+  text-align: center;
+`;
+
 function AboutMe() {
   return (
     <Container>
       <Content>
         <StyledImg src={ProfilePicture} alt="Daniel Perez" />
-        <div style={{ wordWrap: 'break-word', textAlign: 'center' }}>
-          My name is Daniel Perez and I am a Java and Android Developer based out of Colorado.
-        </div>
+        <CenteredText>
+          My name is Daniel Perez and I am a Java and Android Developer based out of Denver,
+          Colorado.
+        </CenteredText>
       </Content>
     </Container>
   );

@@ -49,7 +49,7 @@ function Footer() {
     <FooterContainer>
       <StyledUnorderedList>
         <ListItem>
-          <StyledA>Contact Me</StyledA>
+          <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
         </ListItem>
       </StyledUnorderedList>
     </FooterContainer>

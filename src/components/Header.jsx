@@ -37,10 +37,6 @@ const BaseStyledLinkAndP = css`
   font-size: 20px;
 `;
 
-const StyledA = styled.a`
-  ${BaseStyledLinkAndP};
-`;
-
 const StyledLink = styled(Link)`
   ${BaseStyledLinkAndP};
 `;
@@ -57,9 +53,6 @@ function Header() {
         </ListItem>
         <ListItem>
           <StyledLink to="/blog">Blog</StyledLink>
-        </ListItem>
-        <ListItem>
-          <StyledA href="https://www.github.com/danielPerez97">GitHub</StyledA>
         </ListItem>
       </StyledUnorderedList>
     </HeaderContainer>
