@@ -10,8 +10,14 @@ const Container = styled.div`
   width: 100vw;
 `;
 
+const CircularImgContainer = styled.div`
+  border-radius: 50%;
+  overflow: hidden;
+`;
+
 const StyledImg = styled.img`
   width: 400px;
+  object-fit: scale-down;
 `;
 
 const Content = styled.div`
@@ -27,7 +33,9 @@ function AboutMe() {
   return (
     <Container>
       <Content>
-        <StyledImg src={ProfilePicture} alt="Daniel Perez" />
+        <CircularImgContainer>
+          <StyledImg src={ProfilePicture} alt="Daniel Perez" />
+        </CircularImgContainer>
         <CenteredText>
           My name is Daniel Perez and I am a Java and Android Developer based out of Denver,
           Colorado.
