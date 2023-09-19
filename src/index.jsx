@@ -9,8 +9,8 @@ import BlogList from './components/blog/BlogList';
 import { loadBlogPosts as postsLoader } from './components/blog/loaders/loadBlogPosts';
 import { blogPostLoader as postLoader } from './components/blog/loaders/fetchBlogPost';
 import ErrorPage from './ErrorPage';
-import App from './App';
 import BlogPost from './components/blog/BlogPost';
+import AboutMe from './components/AboutMe';
 
 const container = document.getElementById('#root');
 const router = createBrowserRouter([
@@ -21,7 +21,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '/',
-        element: <App />,
+        element: <AboutMe />,
         errorElement: <ErrorPage />,
       },
       {
