@@ -381,7 +381,7 @@ What have we achieved in this article?
 1) We set up Dagger in our Gradle build
 2) Created a custom Dagger Component and viewed generated code
 3) Configured a custom Application class to provide access to our Dagger Component
-4) Set up our dependency chain for TypicodeService and reviewed a Dagger MissingBinding error
+4) Set up our dependency chain for TypicodeService and reviewed a Dagger `MissingBinding` error
 5) Used Dagger to inject our TypicodeService into MainActivity
 
 That's quite a bit to digest for one article, but I believe that Dagger pays off this upfront complexity with its 
