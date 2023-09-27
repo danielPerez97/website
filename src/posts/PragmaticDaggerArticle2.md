@@ -20,7 +20,7 @@ In this article, we'll do the following to use Dagger and inject `MainActivity` 
 5) Set up our dependency chain with Dagger *Modules*
 6) Inject our `TypicodeService` into an Activity
 
-To start, you'll need to checkout this guides code with the following command:
+To start, you'll need to clone this guides code with the following command:
 ```
 git clone --branch part-2-start https://github.com/danielPerez97/pragmatic-dagger.git
 ```
