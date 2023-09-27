@@ -65,7 +65,7 @@ possible given this constraint because of Components and Annotations.* Almost.*
 
 A Component is just an interface that **you** define to begin using Dagger's generated code. Components are able to 
 expose dependencies from the Dagger graph directly as well as perform members-injection on other classes. We will 
-define a component for our Android application, use Dagger-specific annotations on it, then take at look at the 
+define a component for our Android application, use Dagger-specific annotations on it, then take a look at the 
 generated code.
 
 Let's go ahead and define a `TypicodeAppComponent` in the `dev.danperez.typicode` example, with nothing 
@@ -225,7 +225,7 @@ Dagger graph. Let's go ahead and try to inject a `TypicodeService` by adding the
 import javax.inject.Inject// <-- ADD THIS
 ...
 class MainActivity : ComponentActivity() {
-@Inject lateinit var typicodeService: TypiecodeService // <-- ADD THIS
+@Inject lateinit var typicodeService: TypicodeService // <-- ADD THIS
 var text by mutableStateOf("Hello!")
 ...
 }
@@ -361,8 +361,9 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         
-        // Now, you can use the injected typicodeService in your MainActivity
-        // Example test
+        // This is a coroutine that runs in the lifecycle scope of the activity. It's used to perform asynchronous tasks, 
+        // like network requests, off the main thread. Here, we're using it to test our injected TypicodeService by 
+        // requesting a post from an API and updating the 'text' state with the response.
         lifecycleScope.launch {
             text = typicodeService.getPost(1).string()
         }
@@ -371,7 +372,8 @@ class MainActivity : AppCompatActivity() {
 }
 ```
 
-Now, you should be able to use `TypicodeService` throughout MainActivity.
+Now, you should be able to use `TypicodeService` throughout MainActivity. In the above code, I've provided some code 
+that should display the result of the network request in the UI(it should just be a JSON String).
 
 ## Recap
 What have we achieved in this article?
