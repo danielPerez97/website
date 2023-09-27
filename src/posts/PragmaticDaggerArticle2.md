@@ -11,10 +11,10 @@ dependency chain will look like the following:
 TypicodeService -> Retrofit -> OkHttpClient
 ```
 
-To set up Dagger, we'll do the following steps:
+In this article, we'll do the following to use Dagger and inject `MainActivity` with a `TypicodeService`:
 
 1) Enable kapt
-2) Add Dagger 2, OkHttp, and Retrofit to Gradle
+2) Configure Dagger 2 with gradle
 3) Configure a custom *Component*
 4) Configure a custom `Application` class
 5) Set up our dependency chain with Dagger *Modules*
@@ -29,7 +29,7 @@ kotlin("kapt")
 ```
 Sync your IDE with Gradle.
 
-## 2) Add Dagger 2, OkHttp, and Retrofit to Gradle
+## 2) Configure Dagger 2 with Gradle
 
 ![Maven Central][mavenbadge-svg]
 
@@ -38,15 +38,9 @@ Add these lines to the `dependencies {}` block of your app-module `build.gradle.
 // Dagger - Use the correct version in the banner above for "2.x"
 implementation("com.google.dagger:dagger:2.x")
 kapt("com.google.dagger:dagger-compiler:2.x")
-
-// OkHttp - 4.10.0 at the time of writing
-implementation("com.squareup.okhttp3:okhttp:4.10.0")
-
-// Retrofit - 2.9.0 at the time of writing
-implementation("com.squareup.retrofit2:retrofit:2.9.0")
 ```
 
-Go ahead and sync your IDE with Gradle.
+Sync your IDE with Gradle.
 
 ## 3) Configuring a custom Component and Generating Code
 Next up, we're going to create something called a Component. Before we do that though, let's talk about what a 
@@ -60,17 +54,17 @@ generation instead of reflection. We make this tradeoff for major performance ga
 
 Compared to something like Spring Dependency Injection where it's an out-of-the-box solution, Dagger 2 is often 
 configured manually and requires us to call into the generated code. *I still think it's almost as easy to use as 
-possible given this constraint because of Components + Annotations.* Almost.*
+possible given this constraint because of Components and Annotations.* Almost.*
 
 A Component is just an interface that **you** define to begin using Dagger's generated code. Components are able to 
-provide dependencies from the Dagger graph directly as well as perform members-injection on other classes. We will 
-define a component for our Android application, use Dagger-specific annotations on it, then check out the generated 
-code.
+expose dependencies from the Dagger graph directly as well as perform members-injection on other classes. We will 
+define a component for our Android application, use Dagger-specific annotations on it, then take at look at the 
+generated code.
 
 Let's go ahead and define a `TypicodeAppComponent` in the `dev.danperez.typicode` example, with nothing 
 Dagger-specific yet:
 ```kotlin
-// main/dev/danperez/typicode/TypicodeAppComponent.kt
+// main/java/dev/danperez/typicode/TypicodeAppComponent.kt
 
 package dev.danperez.typicode
 
@@ -85,31 +79,32 @@ function is about as simple as we can make it. We won't provide the implementati
 Dagger will generate it for us.
 
 To make the Dagger Compiler aware of our `TypicodeAppComponent`, all we have to do is add the `@dagger.Component` 
-annotation:
+and `@javax.inject.Singleton` annotations:
 ```kotlin
-// main/dev/danperez/typicode/TypicodeAppComponent.kt
+// main/java/dev/danperez/typicode/TypicodeAppComponent.kt
 package dev.danperez.typicode
 
 import dagger.Component
-import dev.danperez.typicode.di.TypicodeModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [TypicodeModule::class])
+@Component
 interface TypicodeAppComponent
 {
     fun inject(mainActivity: MainActivity)
 }
 ```
 
-`@Singleton` is an annotation we will use for a feature called scopes. We'll use this later so we don't create 
-expensive objects over and over again.
+`@Singleton` is an annotation we will use for a feature called scopes. We can use this later to tell Dagger NOT to 
+create expensive objects over and over again, but to cache it with the lifecycle of the Component.
 
 In order for Dagger to begin generating code, we'll need to build the app module. You can use the hammer icon at the 
 top of Android Studio's New UI to do this or use the following command:
 ```
 ./gradlew :app:clean :app:assembleDebug
 ```
+
+**Note: For this command to work, your JAVA_HOME environment variable MUST point to at least a Java 11 JDK.**
 
 This will generate `DaggerTypicodeAppComponent` at 
 `/app/build/generated/source/kapt/debug/dev/danperez/typicode/DaggerTypicodeAppComponent.java`. You can also view it 
@@ -202,8 +197,8 @@ class TypicodeApplication: Application()
 }
 ```
 
-Then, instruct the Android OS to use your custom application class instead of the default one, simply declare a `name` 
-attribute on the `<application>` tag in your `AndroidManifest.xml`:
+Then, to instruct the Android OS to use your custom application class instead of the default one, simply declare a 
+`name` attribute on the `<application>` tag in your `AndroidManifest.xml`:
 ```kotlin
 <application
         ...
@@ -216,8 +211,18 @@ attribute on the `<application>` tag in your `AndroidManifest.xml`:
 ## 4b) Inject MainActivity
 
 Now, from our `MainActivity`, we'll be able to look up our `TypicodeAppComponent` to retrieve dependencies from the 
-Dagger graph. Let's go ahead and try to inject a `TypicodeService` by adding the following line to `MainActivity`:
+Dagger graph. Let's go ahead and try to inject a `TypicodeService` by adding the following lines to `MainActivity`:
 
+```kotlin
+...
+import javax.inject.Inject// <-- ADD THIS
+...
+class MainActivity : ComponentActivity() {
+@Inject lateinit var typicodeService: TypiecodeService // <-- ADD THIS
+var text by mutableStateOf("Hello!")
+...
+}
+```
 
 Try and build the app module like we did before. You should see a problem:
 ```
@@ -232,8 +237,8 @@ public abstract interface TypicodeAppComponent {
           dev.danperez.typicode.TypicodeAppComponent.inject(dev.danperez.typicode.MainActivity)
 ```
 
-`[Dagger/MissingBinding]` is a well-known error and it should immediately tell you one thing: Dagger could not find 
-an object on its graph. This error is saying we're missing a binding for `TypicodeService` which is trying to be 
+`[Dagger/MissingBinding]` is a well-known error, and it should immediately tell you one thing: Dagger could not find 
+an object on its graph. This error is saying we're missing a binding for `TypicodeService` which is supposed to be 
 injected at `MainActivity`. In this case, it's because *we never told Dagger to put `TypicodeService` on the graph.* 
 Let's fix that.
 
@@ -245,10 +250,10 @@ TypicodeService -> Retrofit -> OkHttpClient
 
 TypicodeService is another interface we will not be generating, Retrofit will. The difference between how Dagger and 
 Retrofit does this is simple: Dagger uses code generation at compile-time, Retrofit uses reflection at runtime. For 
-us, this now means we have 2 interfaces whose implementation we won't be writing out by hand.
+us, this means we now have 2 interfaces whose implementation we won't be writing out by hand.
 
 Since TypicodeService has a *dependency* on Retrofit, we will need to tell Dagger how to use Retrofit to create 
-`TypicodeService`. For classes and implementations we do not own, we have to use Dagger modules.
+`TypicodeService`. For classes and implementations whose code we cannot manually modify, we have to use Dagger modules.
 
 Dagger Modules are the mechanism to say "hey Dagger, here's something I'd like for you to stick on your graph. When 
 you retrieve this type for me, here's the code you'll need to run in order to retrieve it."
@@ -292,8 +297,8 @@ class TypicodeModule
 }
 ```
 
-Here we're using two new annotations, `@Provides` and `@Module`. If we look at the source code for these, we'll see 
-these comments on them from the Dagger 2 maintainers:
+Here we're using two new annotations, `@Module` and `@Provides`. If we look at the source code(`CMD + B` or `CTRL + B`) for 
+these, we'll see these comments on them from the Dagger 2 maintainers:
 `@Module`: "Annotates a class that contributes to the object graph."
 
 `@Provides`: "Annotates methods of a module to create a provider method binding. **The method's return type is bound 
@@ -303,23 +308,23 @@ Essentially, `@Module` tells Dagger "Here's a class/interface that's going to pr
 graph." and `@Provides` tells Dagger "Here is a specific dependency to add to your graph." The two go hand in hand 
 very often.
 
-Knowing this, we can quickly tell that `provideOkHttpClient` binds an `OkHttpClient` type onto the Dagger graph. 
+Knowing this, we can quickly tell that `provideOkHttpClient()` binds an `OkHttpClient` type onto the Dagger graph. 
 `provideRetrofit(client: OkHttpClient)` deserves a bit more attention though.
 
 `provideRetrofit(client: OkHttpClient)` actually *uses* the Dagger graph to request an `OkHttpClient` type. This way,
 we can use our `OkHttpClient` binding multiple times to create different services throughout our Dagger code (or inject 
 it into an Activity). If `OkHttpClient` wasn't on the graph already, we would have gotten another `[MissingBinding]` 
 error. And as a bonus, `@Singleton` combined with `@Provides` tells Dagger, "Create this once and re-use it 
-everywhere after the first time." Effectively, this is enforcing the Singleton pattern for us in Dagger's generated 
+everywhere on the graph." Effectively, this is enforcing the Singleton pattern for us in Dagger's generated 
 code.([It's also good practice to use one OkHttpClient for your entire app too][2])
 
-The final thing we have to do is edit the `@Component` annotation on `TypicodeAppComponent`:
+The final thing we have to do is edit the `@Component` annotation on `TypicodeAppComponent`to the following:
 ```java
 @Component(modules = [TypicodeModule::class])
 ```
 
 This "installs" our module into the `TypicodeAppComponent`. We MUST do this because an application can have multiple 
-Components, and we have to specify which one it belongs to.
+Components, and we have to specify which modules belong to which components.
 
 ## 6) Inject MainActivity: Round 2
 Finally, we can attempt to inject MainActivity. Go ahead and build your app module again.
@@ -342,6 +347,7 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
     @Inject lateinit var typicodeService: TypicodeService
+    ...
 
     override fun onCreate(savedInstanceState: Bundle?) {
         (application as TypicodeApplication).typicodeAppComponent.inject(this) // INJECTION
@@ -350,6 +356,7 @@ class MainActivity : AppCompatActivity() {
         
         // Now, you can use the injected typicodeService in your MainActivity
     }
+    ...
 }
 ```
 
@@ -364,9 +371,11 @@ What have we achieved in this article?
 4) Set up our dependency chain for TypicodeService and reviewed a Dagger MissingBinding error
 5) Used Dagger to inject our TypicodeService into MainActivity
 
-That's quite a bit to digest for one article, but I believe that Dagger pays off this upfront complexity with it's 
-early failures and runtime speed. If this isn't worth it to you, `Koin`[3] has also been quite popular, but it 
-functions more like a service locator instead of a dependency injector.
+That's quite a bit to digest for one article, but I believe that Dagger pays off this upfront complexity with its 
+early failures and runtime speed. Perhaps at a smaller scale, all this setup isn't worth it and `Koin`[3] might be 
+a better fit for your project. However, if your project consists of many thousands of lines of code and many, many 
+modules, Dagger 2 is probably your best choice for validating your dependency graph at compile-time as well as its 
+speed.
 
 ## Part 3
 Stay tuned for Part 3 where we'll discuss how to use the Factory pattern to inject Android ViewModel's.
