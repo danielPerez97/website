@@ -355,6 +355,10 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         
         // Now, you can use the injected typicodeService in your MainActivity
+        // Example test
+        lifecycleScope.launch {
+            text = typicodeService.getPost(1).string()
+        }
     }
     ...
 }
