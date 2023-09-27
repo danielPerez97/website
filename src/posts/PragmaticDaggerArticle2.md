@@ -395,7 +395,7 @@ Stay tuned for Part 3 where we'll discuss how to use the Factory pattern to inje
 
 ## Notes
 
-## I still think it's almost as easy to use as possible. Almost.
+#### "I still think it's almost as easy to use as possible. Almost."
 By this, I mean using Dagger + Anvil to automatically install Modules into the Component. I wish it was built into 
 Dagger itself.
 
