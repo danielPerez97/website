@@ -1,4 +1,4 @@
-# A Pragmatic Introduction To Dagger on Android Part 2: Retrofit Services
+# A Pragmatic Introduction To Dagger on Android Part 2: Setup with Retrofit
 
 Note: This article assumes some [familiarity with Retrofit][4].
 

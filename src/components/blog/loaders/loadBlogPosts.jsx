@@ -8,16 +8,16 @@ export async function loadBlogPosts() {
   const blogs = [
     {
       id: 1,
-      title: 'A Pragmatic Introduction To Dagger on Android',
+      title: 'A Pragmatic Introduction To Dagger on Android Part 1: Why use Dagger?',
       shortDescription: 'Learning to use Dagger for the first time, thermosiphon and car engine free.',
       publishDate: '9/19/2023. Special thanks to Jesse Wilson for review.',
       body: daggerByExampleText,
     },
     {
       id: 2,
-      title: 'A Pragmatic Introduction To Dagger on Android Part 2: Retrofit Services',
-      shortDescription: 'Learn how to up Dagger 2 in an actual Android project.',
-      publishDate: 'TBA',
+      title: 'A Pragmatic Introduction To Dagger on Android Part 2: Setup with Retrofit',
+      shortDescription: 'Learn how to use Dagger 2 in an actual Android project.',
+      publishDate: '9/27/2023',
       body: pragmaticDaggerArticle2,
     },
   ];
