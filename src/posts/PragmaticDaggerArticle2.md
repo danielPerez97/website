@@ -306,6 +306,7 @@ class TypicodeModule
 
 Here we're using two new annotations, `@Module` and `@Provides`. If we look at the source code(`CMD + B` or `CTRL + B`) for 
 these, we'll see these comments on them from the Dagger 2 maintainers:
+
 `@Module`: "Annotates a class that contributes to the object graph."
 
 `@Provides`: "Annotates methods of a module to create a provider method binding. **The method's return type is bound 
@@ -385,7 +386,7 @@ What have we achieved in this article?
 5) Used Dagger to inject our TypicodeService into MainActivity
 
 That's quite a bit to digest for one article, but I believe that Dagger pays off this upfront complexity with its 
-early failures and runtime speed. Perhaps at a smaller scale, all this setup isn't worth it and `Koin`[3] might be 
+early failures and runtime speed. Perhaps at a smaller scale, all this setup isn't worth it and [Koin][3] might be 
 a better fit for your project. However, if your project consists of many thousands of lines of code and many, many 
 modules, Dagger 2 is probably your best choice for validating your dependency graph at compile-time as well as its 
 speed.
