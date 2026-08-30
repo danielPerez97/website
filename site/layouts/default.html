@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ page.title }} - Daniel Perez</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,300,700" type="text/css">
+    <link rel="stylesheet" href="/static/app.css" type="text/css">
+    <link type="application/atom+xml" rel="alternate" href="{{ site.url }}/atom.xml" />
+    <meta name="theme-color" content="#111111">
+
+    <meta name="og:type" content="website">
+    <meta name="og:title" content="{{ page.title }}">
+    <meta name="og:description" content="Blog posts, presentations, GitHub, and more.">
+    <meta name="og:site_name" content="Daniel Perez">
+    <meta name="og:url" content="{{ site.url }}">
+    <meta name="og:image" content="{{ site.url }}/static/default_image.png">
+  </head>
+  <body>
+    <header>
+      <ul>
+        <li><a href="/">Daniel Perez</a></li>
+        <li><a href="/">About Me</a></li>
+        <li><a href="/blog">Blog</a></li>
+        <li><a href="https://github.com/danielPerez97">Github</a></li>
+      </ul>
+    </header>
+    <div class="content">
+      {{ content }}
+    </div>
+  </body>
+</html>
