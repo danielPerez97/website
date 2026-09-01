@@ -4,6 +4,7 @@ use clap::Parser;
 use std::fs::create_dir;
 use std::path::PathBuf;
 use std::process::exit;
+use crate::fs_utils::expect_dir;
 
 mod site_parser;
 mod site;
@@ -28,7 +29,7 @@ struct Args {
 fn main() {
     let args = Args::parse();
     let root_dir = PathBuf::from(args.root_dir);
-    assert!(root_dir.is_dir());
+    expect_dir(&root_dir);
     let output_dir = root_dir.join("out");
     if !output_dir.exists() {
         match create_dir(&output_dir) {

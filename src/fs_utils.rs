@@ -46,3 +46,9 @@ pub fn copy_recursively(root_dir: &PathBuf, source: &PathBuf, destination: &Path
     println!();
     Ok(())
 }
+
+pub fn expect_dir(path: &PathBuf) {
+    if !path.is_dir() {
+        panic!("Path '{}' MUST be a directory.", path.display())
+    }
+}
