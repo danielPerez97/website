@@ -33,6 +33,8 @@ impl SiteRenderer {
         let layouts_dir = root_dir.join("layouts");
         let default_template = liquid_parser.parse_file(layouts_dir.join("default.html")).unwrap();
         let post_template = liquid_parser.parse_file(layouts_dir.join("post.html")).unwrap();
+        let header_file = root_dir.join("header.html");
+        let header_content = read_to_string(header_file).unwrap();
 
         output_dir.delete_recursively();
 
@@ -47,6 +49,7 @@ impl SiteRenderer {
 
         Self::render_html(
             &root_dir.join("index.html"),
+            Some(&header_content),
             None,
             None,
             &site_data,
@@ -58,6 +61,7 @@ impl SiteRenderer {
             &root_dir.join("atom.xml"),
             None,
             None,
+            None,
             &site_data,
             &output_dir.join("atom.xml"),
             liquid_parser
@@ -65,10 +69,22 @@ impl SiteRenderer {
 
         Self::render_html(
             &root_dir.join("blog.html"),
-            Some(default_template),
+            Some(&header_content),
+            Some(&default_template),
             Some(String::from("Posts")),
             &site_data,
             &output_dir.join("blog/index.html"),
+            liquid_parser
+        );
+
+
+        Self::render_html(
+            &root_dir.join("../site/resume.html"),
+            Some(&header_content),
+            Some(&default_template),
+            Some(String::from("Resume")),
+            &site_data,
+            &output_dir.join("resume/index.html"),
             liquid_parser
         );
 
@@ -80,7 +96,8 @@ impl SiteRenderer {
 
     fn render_html(
         html_file: &PathBuf,
-        template: Option<Template>,
+        header: Option<&String>,
+        template: Option<&Template>,
         title: Option<String>,
         site_data: &Object,
         output_file: &PathBuf,
@@ -91,6 +108,7 @@ impl SiteRenderer {
         let content = read_to_string(html_file).unwrap();
         let intermediate_data: Object = object!({
             "site": site_data,
+            "header-content": header,
         });
         let intermediate = liquid_parser.parse(&content)
             .unwrap().render(&intermediate_data).unwrap();
@@ -98,7 +116,10 @@ impl SiteRenderer {
         let rendered = if let Some(template) = template {
             template.render(&object!({
                 "content": intermediate,
-                "page": object!({ "title": title }),
+                "page": object!({
+                    "title": title,
+                }),
+                "header-content": header,
                 "site": site_data
             })).unwrap()
         } else {
