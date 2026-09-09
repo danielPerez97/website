@@ -5,6 +5,18 @@ HTML files.
 ## Building
 To build, you will need to [install Rust][1]. Then, run `cargo build` to build an executable in the `target` folder.
 
+You will also need to install the `rougify` CLI tool:
+
+#### Fedora 44
+```
+sudo dnf install rubygem-rouge
+```
+
+#### MacOS
+```
+todo
+```
+
 ## Usage
 Make sure your CLI is inside the `site` folder. Then, run
 ```
