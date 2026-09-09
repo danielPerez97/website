@@ -1,5 +1,5 @@
 use std::fs::{read_dir, remove_dir_all, remove_file};
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use walkdir::WalkDir;
 
 pub trait ClearContents {
@@ -9,7 +9,7 @@ pub trait ClearContents {
 impl ClearContents for PathBuf {
     fn delete_recursively(&self) {
         if self.exists() {
-            for entry in read_dir(&self).unwrap() {
+            for entry in read_dir(self).unwrap() {
                 let entry = entry.unwrap();
                 let path = entry.path();
 
@@ -23,7 +23,25 @@ impl ClearContents for PathBuf {
     }
 }
 
-pub fn copy_recursively(root_dir: &PathBuf, source: &PathBuf, destination: &PathBuf) -> std::io::Result<()> {
+impl ClearContents for Path {
+    fn delete_recursively(&self) {
+        if self.exists() {
+            for entry in read_dir(self).unwrap() {
+                let entry = entry.unwrap();
+                let path = entry.path();
+
+                if path.is_dir() {
+                    let _ = remove_dir_all(path);
+                } else {
+                    let _ = remove_file(path);
+                }
+            }
+        }
+    }
+}
+
+
+pub fn copy_recursively(root_dir: &Path, source: &Path, destination: &Path) -> std::io::Result<()> {
     for entry in WalkDir::new(source) {
         let entry = entry?;
         let source_path = entry.path();
@@ -47,8 +65,6 @@ pub fn copy_recursively(root_dir: &PathBuf, source: &PathBuf, destination: &Path
     Ok(())
 }
 
-pub fn expect_dir(path: &PathBuf) {
-    if !path.is_dir() {
-        panic!("Path '{}' MUST be a directory.", path.display())
-    }
+pub fn expect_dir(path: &Path) {
+    assert!(path.is_dir(), "Path '{}' MUST be a directory.", path.display());
 }

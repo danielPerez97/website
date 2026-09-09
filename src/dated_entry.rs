@@ -11,21 +11,21 @@ pub struct DatedEntry {
 }
 
 pub trait IntoDatedEntryCollection {
-    fn into_dated_entry(&self) -> DatedEntry;
+    fn into_dated_entry(self) -> DatedEntry;
 }
 
 impl IntoDatedEntryCollection for PathBuf {
 
-    fn into_dated_entry(&self) -> DatedEntry {
+    fn into_dated_entry(self) -> DatedEntry {
         let file_name = self.file_stem().unwrap().to_string_lossy();
         let file_name = String::from(file_name);
         let (raw_date, slug) = file_name.split_around(10);
-        let content = read_to_string(self).unwrap();
+        let content = read_to_string(&self).unwrap();
 
         DatedEntry {
-            path: PathBuf::from(self),
+            path: self,
             date: NaiveDate::parse_from_str(&raw_date, "%Y-%m-%d").unwrap(),
-            slug: String::from(slug),
+            slug,
             content,
         }
     }

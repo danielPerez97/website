@@ -7,7 +7,7 @@ pub struct HighlightCodeBlocks<'a, I> {
     _marker: std::marker::PhantomData<Event<'a>>
 }
 
-impl<'a, I> HighlightCodeBlocks<'a, I> {
+impl<I> HighlightCodeBlocks<'_, I> {
     pub fn new(inner: I) -> Self {
         Self {
             inner,
@@ -38,7 +38,7 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for HighlightCodeBlocks<'a, I> 
                 Some(Event::Text(text)) => literal.push_str(&text),
                 Some(Event::End(TagEnd::CodeBlock)) | None => break,
                 Some(_) => {
-                    eprintln!("This wasn't supposed to happen.")
+                    eprintln!("This wasn't supposed to happen.");
                 }
             }
         }
@@ -62,9 +62,9 @@ fn render_code_block(language: &str, literal: &str) -> String {
             }
         };
 
-        out.push_str(&format!(
+        out.push_str(
             r#"<div class="language-{language} highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"#
-        ));
+        );
         out.push_str(&body);
     }
 

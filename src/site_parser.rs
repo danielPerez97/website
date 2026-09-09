@@ -25,9 +25,9 @@ impl SiteParser {
         let posts_dir = self.root_dir.join("posts");
         let mut post_entries: Vec<BlogPost> = read_dir(posts_dir)
             .ok().unwrap()
-            .filter_map(|entry| entry.ok())
+            .filter_map(Result::ok)
             .map(|entry| entry.path().into_dated_entry())
-            .map(|dated_entry| Self::parse_blog_post(&self, dated_entry))
+            .map(|dated_entry| Self::parse_blog_post(self, dated_entry))
             .collect();
 
         post_entries.sort_by_key(|post| std::cmp::Reverse(
@@ -43,12 +43,12 @@ impl SiteParser {
 
     fn parse_blog_post(&self, entry: DatedEntry) -> BlogPost {
         let (raw_front_matter, raw_markdown) = entry.content
-            .into_front_matter_and_markdown();
+            .split_into_front_matter_and_markdown();
 
         let entry_display = &entry.path.display();
         let raw_front_matter = raw_front_matter.unwrap();
-        let front_matter: FrontMatter = yaml_serde::from_str(&raw_front_matter)
-            .unwrap_or_else(|_| panic!("Missing front matter: {}", entry_display));
+        let front_matter: FrontMatter = yaml_serde::from_str(raw_front_matter)
+            .unwrap_or_else(|_| panic!("Missing front matter: {entry_display}"));
 
         let title = front_matter.title;
 
@@ -56,7 +56,7 @@ impl SiteParser {
         options.insert(Options::ENABLE_FOOTNOTES);
         options.insert(Options::ENABLE_TABLES);
 
-        let md_parser = Parser::new_ext(&raw_markdown, options);
+        let md_parser = Parser::new_ext(raw_markdown, options);
         let mut html_output = String::new();
         let html_output = if self.skip_syntax_highlighting {
             push_html(&mut html_output, md_parser);
@@ -70,7 +70,7 @@ impl SiteParser {
         BlogPost::new(
             entry.path,
             entry.date,
-            entry.slug.to_string(),
+            &entry.slug,
             title,
             format!("/{}/", entry.slug),
             html_output

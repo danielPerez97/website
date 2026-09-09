@@ -28,13 +28,13 @@ struct Args {
 
 fn main() {
     let args = Args::parse();
-    let root_dir = PathBuf::from(args.root_dir);
+    let root_dir = args.root_dir;
     expect_dir(&root_dir);
     let output_dir = root_dir.join("out");
     if !output_dir.exists() {
         match create_dir(&output_dir) {
-            Ok(_) => {
-                println!("Created output directory at {}", output_dir.display())
+            Ok(()) => {
+                println!("Created output directory at {}", output_dir.display());
             }
             Err(e) => {
                 println!("Error creating output directory at {}: {}", output_dir.display(), e);
@@ -49,6 +49,6 @@ fn main() {
     println!("\nValidating(TODO)");
 
     print!("\nRendering!\n");
-    SiteRenderer::new().render(site, &root_dir, &output_dir)
+    SiteRenderer::new().render(site, &root_dir, &output_dir);
 }
 

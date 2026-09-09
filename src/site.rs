@@ -29,7 +29,7 @@ impl BlogPost {
     pub fn new(
        path: PathBuf,
        date: NaiveDate,
-       slug: String,
+       slug: &str,
        title: String,
        url: String,
        content: String
@@ -38,7 +38,7 @@ impl BlogPost {
         BlogPost {
             path,
             date,
-            slug: String::from(&slug),
+            slug: String::from(slug),
             title,
             url,
             content

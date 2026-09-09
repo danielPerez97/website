@@ -1,5 +1,5 @@
 use std::fs::{create_dir_all, read_to_string, write};
-use std::path::PathBuf;
+use std::path::{PathBuf, Path};
 use chrono::Utc;
 use liquid::{object, Object, Template, ValueView, ParserBuilder};
 use liquid::Parser as LiquidParser;
@@ -23,7 +23,7 @@ impl SiteRenderer {
         }
     }
 
-    pub fn render(&self, site: Site, root_dir: &PathBuf, output_dir: &PathBuf) {
+    pub fn render(&self, site: Site, root_dir: &Path, output_dir: &Path) {
         let liquid_parser = &self.liquid_parser;
         let blog_posts = site.blog_posts;
         let post_data: Vec<Object> = blog_posts.iter()
@@ -71,7 +71,7 @@ impl SiteRenderer {
             &root_dir.join("blog.html"),
             Some(&header_content),
             Some(&default_template),
-            Some(String::from("Posts")),
+            Some(&String::from("Posts")),
             &site_data,
             &output_dir.join("blog/index.html"),
             liquid_parser
@@ -82,7 +82,7 @@ impl SiteRenderer {
             &root_dir.join("../site/resume.html"),
             Some(&header_content),
             Some(&default_template),
-            Some(String::from("Resume")),
+            Some(&String::from("Resume")),
             &site_data,
             &output_dir.join("resume/index.html"),
             liquid_parser
@@ -90,7 +90,7 @@ impl SiteRenderer {
 
         for (blog_post, page_data) in blog_posts.iter().zip(&post_data) {
             Self::render_page(output_dir, page_data, Some(&post_template), &site_data);
-            println!("Rendered page {} with date {}\n", blog_post.slug, blog_post.date)
+            println!("Rendered page {} with date {}\n", blog_post.slug, blog_post.date);
         }
     }
 
@@ -98,7 +98,7 @@ impl SiteRenderer {
         html_file: &PathBuf,
         header: Option<&String>,
         template: Option<&Template>,
-        title: Option<String>,
+        title: Option<&String>,
         site_data: &Object,
         output_file: &PathBuf,
         liquid_parser: &LiquidParser,
@@ -129,11 +129,11 @@ impl SiteRenderer {
         create_dir_all(output_file.parent().unwrap()).unwrap();
         write(output_file, rendered).unwrap();
 
-        println!("Successfully rendered HTML for {}\n", html_file.display())
+        println!("Successfully rendered HTML for {}\n", html_file.display());
     }
 
     fn render_page(
-        output_dir: &PathBuf,
+        output_dir: &Path,
         page_data: &Object,
         template: Option<&Template>,
         site_data: &Object
@@ -142,16 +142,16 @@ impl SiteRenderer {
 
         let binding = page_data.get("content").unwrap().to_kstr();
         let content = binding.as_str();
-        let rendered = if template.is_none() {
-            content
-        } else {
-            &template.unwrap().render(
+        let rendered = if let Some(template) = template {
+            &template.render(
                 &object!({
                     "content": content,
                     "page": page_data,
                     "site": site_data,
                 })
             ).unwrap()
+        } else {
+            content
         };
 
         let url_path = page_data.get("url").unwrap();
