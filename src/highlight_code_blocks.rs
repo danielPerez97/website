@@ -1,24 +1,23 @@
 use pulldown_cmark::{CodeBlockKind, CowStr, Event, Tag, TagEnd};
-use std::io::Write;
-use std::process::{Command, Stdio};
+use std::io::{ErrorKind, Write};
+use std::process::{exit, Command, Stdio};
 
 pub struct HighlightCodeBlocks<'a, I> {
     inner: I,
-    _marker: std::marker::PhantomData<Event<'a>>
+    _marker: std::marker::PhantomData<Event<'a>>,
 }
 
 impl<I> HighlightCodeBlocks<'_, I> {
     pub fn new(inner: I) -> Self {
         Self {
             inner,
-            _marker: std::marker::PhantomData
+            _marker: std::marker::PhantomData,
         }
     }
 }
 
 impl<'a, I: Iterator<Item = Event<'a>>> Iterator for HighlightCodeBlocks<'a, I> {
     type Item = Event<'a>;
-
 
     fn next(&mut self) -> Option<Event<'a>> {
         let event = self.inner.next()?;
@@ -43,7 +42,9 @@ impl<'a, I: Iterator<Item = Event<'a>>> Iterator for HighlightCodeBlocks<'a, I> 
             }
         }
 
-        Some(Event::Html(CowStr::from(render_code_block(&language, &literal))))
+        Some(Event::Html(CowStr::from(render_code_block(
+            &language, &literal,
+        ))))
     }
 }
 
@@ -56,9 +57,8 @@ fn render_code_block(language: &str, literal: &str) -> String {
     } else {
         let body = match highlight_with_rouge(language, literal) {
             Ok(html) => html,
-            Err(e) => {
-                eprintln!("rougify failed for language {language:?}: {e}");
-                escape_html(literal)
+            Err(_) => {
+                exit(1);
             }
         };
 
@@ -70,11 +70,21 @@ fn render_code_block(language: &str, literal: &str) -> String {
 
     out.push_str("</code></pre></div></div>");
 
-
     out
 }
 
-fn highlight_with_rouge(language: &str, code: &str) -> std::io::Result<String> {
+fn highlight_with_rouge(language: &str, code: &str) -> Result<String, std::io::Error> {
+    let mut command = Command::new("rougify");
+    command.stdout(Stdio::null()).stderr(Stdio::null());
+
+    let status = command.status();
+    if let Err(e) = status
+        && e.kind() == ErrorKind::NotFound
+    {
+        eprintln!("The CLI tool 'rougify' was not found, please install it from your package manager or use '--skip-syntax-highlighting'. Exiting...");
+        return Err(e);
+    }
+
     let mut child = Command::new("rougify")
         .args(["highlight", "-f", "html", "-l", language, "-i", "-"])
         .stdin(Stdio::piped())
@@ -82,17 +92,17 @@ fn highlight_with_rouge(language: &str, code: &str) -> std::io::Result<String> {
         .stderr(Stdio::piped())
         .spawn()?;
 
-    child.stdin.take().unwrap().write_all(code.as_bytes())?;
+    if let Some(mut stdin) = child.stdin.take() {
+        stdin.write_all(code.as_bytes())?;
+    }
 
     let output = child.wait_with_output()?;
     if !output.status.success() {
         let stderr = String::from_utf8_lossy(&output.stderr);
-        return Err(std::io::Error::other(
-            format!(
-                "rougify exited with {}: {stderr}",
-                output.status
-            )
-        ));
+        return Err(std::io::Error::other(format!(
+            "rougify exited with {}: {stderr}",
+            output.status
+        )));
     }
 
     Ok(String::from_utf8_lossy(&output.stdout).into_owned())
@@ -105,10 +115,9 @@ fn escape_html(s: &str) -> String {
             '&' => escaped.push_str("&amp;"),
             '<' => escaped.push_str("&lt;"),
             '>' => escaped.push_str("&gt;"),
-            _ => escaped.push(c)
+            _ => escaped.push(c),
         }
     }
 
     escaped
 }
-
