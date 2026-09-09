@@ -55,11 +55,8 @@ fn render_code_block(language: &str, literal: &str) -> String {
         out.push_str(r#"<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"#);
         out.push_str(&escape_html(literal));
     } else {
-        let body = match highlight_with_rouge(language, literal) {
-            Ok(html) => html,
-            Err(_) => {
-                exit(1);
-            }
+        let Ok(body) = highlight_with_rouge(language, literal) else {
+            exit(1);
         };
 
         out.push_str(
