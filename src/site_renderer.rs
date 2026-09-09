@@ -49,7 +49,7 @@ impl SiteRenderer {
         Self::render_html(
             &root_dir.join("index.html.liquid"),
             Some(&header_template),
-            Some("/"),
+            Some("home"),
             None,
             None,
             &site_data,
@@ -71,7 +71,7 @@ impl SiteRenderer {
         Self::render_html(
             &root_dir.join("blog.html.liquid"),
             Some(&header_template),
-            Some("/blog"),
+            Some("blog"),
             Some(&default_template),
             Some(&String::from("Posts")),
             &site_data,
@@ -83,7 +83,7 @@ impl SiteRenderer {
         Self::render_html(
             &root_dir.join("../site/resume.html.liquid"),
             Some(&header_template),
-            Some("/resume"),
+            Some("resume"),
             Some(&default_template),
             Some(&String::from("Resume")),
             &site_data,
@@ -92,7 +92,13 @@ impl SiteRenderer {
         );
 
         for (blog_post, page_data) in blog_posts.iter().zip(&post_data) {
-            Self::render_page(output_dir, page_data, Some(&post_template), &site_data);
+            Self::render_blog_page(
+                output_dir,
+                Some(&header_template),
+                page_data,
+                Some(&post_template),
+                &site_data
+            );
             println!("Rendered page {} with date {}\n", blog_post.slug, blog_post.date);
         }
     }
@@ -100,7 +106,7 @@ impl SiteRenderer {
     fn render_html(
         html_file: &PathBuf,
         header_template: Option<&Template>,
-        current_url: Option<&str>,
+        current_section: Option<&str>,
         template: Option<&Template>,
         title: Option<&String>,
         site_data: &Object,
@@ -110,7 +116,7 @@ impl SiteRenderer {
         println!("Rendering {} to HTML...", html_file.display());
 
         let header_rendered = header_template
-            .map(|t| t.render(&object!({ "current_url": current_url })).unwrap());
+            .map(|t| t.render(&object!({ "current_section": current_section })).unwrap());
 
         let content = read_to_string(html_file).unwrap();
         let intermediate_data: Object = object!({
@@ -139,13 +145,17 @@ impl SiteRenderer {
         println!("Successfully rendered HTML for {}\n", html_file.display());
     }
 
-    fn render_page(
+    fn render_blog_page(
         output_dir: &Path,
+        header_template: Option<&Template>,
         page_data: &Object,
         template: Option<&Template>,
         site_data: &Object
     ) {
         println!("Rendering page {}", page_data.get("url").unwrap().to_kstr());
+
+        let header_rendered = header_template
+            .map(|t| t.render(&object!({ "current_section": "blog" })).unwrap());
 
         let binding = page_data.get("content").unwrap().to_kstr();
         let content = binding.as_str();
@@ -153,6 +163,7 @@ impl SiteRenderer {
             &template.render(
                 &object!({
                     "content": content,
+                    "header-content": header_rendered,
                     "page": page_data,
                     "site": site_data,
                 })

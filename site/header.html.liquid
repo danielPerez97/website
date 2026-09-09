@@ -1,16 +1,16 @@
 <ul>
 	<li>
-		<a {% if current_url == "/" %} class="active" {% endif %} href="/">
+		<a {% if current_section == "home" %} class="active" {% endif %} href="/">
 			Daniel Perez
 		</a>
 	</li>
 
 	<li>
-		<a {% if current_url == "/blog" %} class="active" {% endif %} href="/blog">Blog</a>
+		<a {% if current_section == "blog" %} class="active" {% endif %} href="/blog">Blog</a>
 	</li>
 
 	<li>
-		<a {% if current_url == "/resume" %} class="active" {% endif %} href="/resume">Résumé</a>
+		<a {% if current_section == "resume" %} class="active" {% endif %} href="/resume">Résumé</a>
 	</li>
 
 	<li>
