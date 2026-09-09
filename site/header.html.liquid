@@ -1,0 +1,19 @@
+<ul>
+	<li>
+		<a {% if current_url == "/" %} class="active" {% endif %} href="/">
+			Daniel Perez
+		</a>
+	</li>
+
+	<li>
+		<a {% if current_url == "/blog" %} class="active" {% endif %} href="/blog">Blog</a>
+	</li>
+
+	<li>
+		<a {% if current_url == "/resume" %} class="active" {% endif %} href="/resume">Résumé</a>
+	</li>
+
+	<li>
+		<a>Github</a>
+	</li>
+</ul>

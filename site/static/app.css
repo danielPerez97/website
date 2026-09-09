@@ -46,6 +46,10 @@ header {
             color: var(--link-color)
         }
 
+        a.active {
+            color: var(--link-color)
+        }
+
         li {
             list-style: none;
         }

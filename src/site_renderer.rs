@@ -33,8 +33,7 @@ impl SiteRenderer {
         let layouts_dir = root_dir.join("layouts");
         let default_template = liquid_parser.parse_file(layouts_dir.join("default.html")).unwrap();
         let post_template = liquid_parser.parse_file(layouts_dir.join("post.html")).unwrap();
-        let header_file = root_dir.join("header.html");
-        let header_content = read_to_string(header_file).unwrap();
+        let header_template = liquid_parser.parse_file(root_dir.join("header.html.liquid")).unwrap();
 
         output_dir.delete_recursively();
 
@@ -49,7 +48,8 @@ impl SiteRenderer {
 
         Self::render_html(
             &root_dir.join("index.html"),
-            Some(&header_content),
+            Some(&header_template),
+            Some("/"),
             None,
             None,
             &site_data,
@@ -62,6 +62,7 @@ impl SiteRenderer {
             None,
             None,
             None,
+            None,
             &site_data,
             &output_dir.join("atom.xml"),
             liquid_parser
@@ -69,7 +70,8 @@ impl SiteRenderer {
 
         Self::render_html(
             &root_dir.join("blog.html"),
-            Some(&header_content),
+            Some(&header_template),
+            Some("/blog"),
             Some(&default_template),
             Some(&String::from("Posts")),
             &site_data,
@@ -80,7 +82,8 @@ impl SiteRenderer {
 
         Self::render_html(
             &root_dir.join("../site/resume.html"),
-            Some(&header_content),
+            Some(&header_template),
+            Some("/resume"),
             Some(&default_template),
             Some(&String::from("Resume")),
             &site_data,
@@ -96,7 +99,8 @@ impl SiteRenderer {
 
     fn render_html(
         html_file: &PathBuf,
-        header: Option<&String>,
+        header_template: Option<&Template>,
+        current_url: Option<&str>,
         template: Option<&Template>,
         title: Option<&String>,
         site_data: &Object,
@@ -105,10 +109,13 @@ impl SiteRenderer {
     ) {
         println!("Rendering {} to HTML...", html_file.display());
 
+        let header_rendered = header_template
+            .map(|t| t.render(&object!({ "current_url": current_url })).unwrap());
+
         let content = read_to_string(html_file).unwrap();
         let intermediate_data: Object = object!({
             "site": site_data,
-            "header-content": header,
+            "header-content": header_rendered,
         });
         let intermediate = liquid_parser.parse(&content)
             .unwrap().render(&intermediate_data).unwrap();
@@ -119,7 +126,7 @@ impl SiteRenderer {
                 "page": object!({
                     "title": title,
                 }),
-                "header-content": header,
+                "header-content": header_rendered,
                 "site": site_data
             })).unwrap()
         } else {
