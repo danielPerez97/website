@@ -4,7 +4,7 @@ use chrono::Utc;
 use liquid::{object, Object, Template, ValueView, ParserBuilder};
 use liquid::Parser as LiquidParser;
 use crate::liquid_xml_escape::XmlEscape;
-use crate::fs_utils::{copy_recursively, ClearContents};
+use crate::fs_utils::{copy_recursively, ClearContents, strip_liquid_extension};
 use crate::liquid_date_to_xml_schema::DateToXmlSchema;
 use crate::site::{BlogPost, Site};
 use crate::time_utils::format_utc;
@@ -31,8 +31,8 @@ impl SiteRenderer {
             .collect();
 
         let layouts_dir = root_dir.join("layouts");
-        let default_template = liquid_parser.parse_file(layouts_dir.join("default.html")).unwrap();
-        let post_template = liquid_parser.parse_file(layouts_dir.join("post.html")).unwrap();
+        let default_template = liquid_parser.parse_file(layouts_dir.join("default.html.liquid")).unwrap();
+        let post_template = liquid_parser.parse_file(layouts_dir.join("post.html.liquid")).unwrap();
         let header_template = liquid_parser.parse_file(root_dir.join("header.html.liquid")).unwrap();
 
         output_dir.delete_recursively();
@@ -47,7 +47,7 @@ impl SiteRenderer {
         });
 
         Self::render_html(
-            &root_dir.join("index.html"),
+            &root_dir.join("index.html.liquid"),
             Some(&header_template),
             Some("/"),
             None,
@@ -69,7 +69,7 @@ impl SiteRenderer {
         );
 
         Self::render_html(
-            &root_dir.join("blog.html"),
+            &root_dir.join("blog.html.liquid"),
             Some(&header_template),
             Some("/blog"),
             Some(&default_template),
@@ -81,7 +81,7 @@ impl SiteRenderer {
 
 
         Self::render_html(
-            &root_dir.join("../site/resume.html"),
+            &root_dir.join("../site/resume.html.liquid"),
             Some(&header_template),
             Some("/resume"),
             Some(&default_template),
@@ -163,6 +163,7 @@ impl SiteRenderer {
 
         let url_path = page_data.get("url").unwrap();
         let output_file = output_dir.join(Self::url_path_to_relative_file_path(url_path.to_kstr().as_str()));
+        let output_file = strip_liquid_extension(&output_file);
         if let Some(parent) = output_file.parent() {
             create_dir_all(parent).expect("Could not create parent");
         }
@@ -171,7 +172,7 @@ impl SiteRenderer {
 
     fn url_path_to_relative_file_path(path: &str) -> String {
         let trimmed = path.trim_start_matches('/');
-        let suffix = if path.ends_with('/') { "index.html" } else { ".html" };
+        let suffix = if path.ends_with('/') { "index.html.liquid" } else { ".html" };
         format!("{trimmed}{suffix}")
     }
 

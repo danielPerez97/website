@@ -68,3 +68,9 @@ pub fn copy_recursively(root_dir: &Path, source: &Path, destination: &Path) -> s
 pub fn expect_dir(path: &Path) {
     assert!(path.is_dir(), "Path '{}' MUST be a directory.", path.display());
 }
+
+pub fn strip_liquid_extension(path: &Path) -> PathBuf {
+    let file_name = path.file_name().unwrap().to_str().unwrap();
+    let stripped = file_name.strip_suffix(".liquid").unwrap_or(file_name);
+    path.with_file_name(stripped)
+}
