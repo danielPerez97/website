@@ -9,8 +9,6 @@ tags:
 lead: I struggled to learn Dagger and want to simplify the learning for junior programmers.
 ---
 
-# A Pragmatic Introduction To Dagger on Android Part 1: Why use Dagger?
-
 Dagger 2 is one of the most infamous tools in Android development and yet one of the most indispensable. Newcomers have
 struggled to understand why it's used, what Dependency Injection is, and how to set Dependency Injection up in their own
 projects.

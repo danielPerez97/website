@@ -8,8 +8,6 @@ tags:
 
 lead: I struggled to learn Dagger and want to simplify the learning for junior programmers.
 ---
-# A Pragmatic Introduction To Dagger on Android Part 2: Setup with Retrofit
-
 Note: This article assumes some [familiarity with Retrofit][4].
 
 Welcome back to "A Pragmatic Introduction to Dagger on Android". [In the last article][1] we discussed *why* you would
