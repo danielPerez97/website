@@ -43,10 +43,8 @@ fn main() {
         }
     }
 
-    let site_parser = SiteParser::new(root_dir.clone(), args.skip_syntax_highlighting);
+    let site_parser = SiteParser::new(&root_dir, args.skip_syntax_highlighting);
     let site = site_parser.parse();
-
-    println!("\nValidating(TODO)");
 
     print!("\nRendering!\n");
     SiteRenderer::new().render(site, &root_dir, &output_dir);

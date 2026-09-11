@@ -2,7 +2,7 @@ use crate::dated_entry::{DatedEntry, IntoDatedEntryCollection};
 use crate::front_matter::{FrontMatter, SplitFrontMatterAndMarkdown};
 use crate::site::{BlogPost, Site};
 use std::fs::read_dir;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use pulldown_cmark::{Options, Parser};
 use pulldown_cmark::html::push_html;
 use crate::highlight_code_blocks::HighlightCodeBlocks;
@@ -15,10 +15,10 @@ pub struct SiteParser {
 
 impl SiteParser {
 
-    pub fn new(root_dir: PathBuf, skip_syntax_highlighting: bool) -> SiteParser {
+    pub fn new(root_dir: &Path, skip_syntax_highlighting: bool) -> SiteParser {
         SiteParser {
-            root_dir,
-            skip_syntax_highlighting
+            root_dir: PathBuf::from(root_dir),
+            skip_syntax_highlighting,
         }
     }
     pub fn parse(&self) -> Site {
