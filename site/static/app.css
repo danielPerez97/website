@@ -124,7 +124,7 @@ body img {
 }
 
 .content {
-    padding: 40px;
+    padding: 0px 40px 40px 40px;
     max-width: 1000px;
     line-height: 24px;
 }
