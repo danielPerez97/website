@@ -3,6 +3,7 @@ use serde::Deserialize;
 #[derive(Debug, Deserialize)]
 pub struct FrontMatter {
     pub title: String,
+    pub lead: String,
 }
 
 pub trait SplitFrontMatterAndMarkdown<'a> {

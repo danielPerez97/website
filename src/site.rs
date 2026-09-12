@@ -22,7 +22,8 @@ pub struct BlogPost {
     pub slug: String,
     pub title: String,
     pub url: String,
-    pub content: String
+    pub content: String,
+    pub lead: String,
 }
 
 impl BlogPost {
@@ -32,7 +33,8 @@ impl BlogPost {
        slug: &str,
        title: String,
        url: String,
-       content: String
+       content: String,
+       lead: String,
     ) -> BlogPost {
         let date = format_utc(date.and_hms_opt(0, 0, 0).unwrap().and_utc());
         BlogPost {
@@ -41,7 +43,8 @@ impl BlogPost {
             slug: String::from(slug),
             title,
             url,
-            content
+            content,
+            lead
         }
     }
 }

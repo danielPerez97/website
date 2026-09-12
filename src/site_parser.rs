@@ -73,7 +73,8 @@ impl SiteParser {
             &entry.slug,
             title,
             format!("/{}/", entry.slug),
-            html_output
+            html_output,
+            front_matter.lead,
         )
     }
 }

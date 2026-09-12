@@ -192,7 +192,7 @@ impl SiteRenderer {
             "title": blog_post.title,
             "id": format!("/{}", blog_post.slug),
             "url": format!("/{}/", blog_post.slug),
-            "lead": "TODO",
+            "lead": blog_post.lead,
             "date": blog_post.date.clone(),
             "content": blog_post.content,
         })
