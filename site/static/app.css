@@ -19,7 +19,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100%;
-    font-family: 'Merriweather Sans', sans-serif;
+    font-family: 'Alexandria', sans-serif;
     background-color: var(--background-color);
     margin: 0;
 
@@ -98,7 +98,6 @@ header ul li a {
     margin-left: 16px;
     margin-right: 16px;
     text-decoration: none;
-    font-family: monospace;
     line-height: 60px;
     font-size: 20px
 }
@@ -138,7 +137,6 @@ body img {
 }
 
 .presentation-list .date {
-    font-family: monospace;
     font-size: 15px;
     padding-right: 10px;
 }
