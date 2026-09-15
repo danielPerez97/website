@@ -1,0 +1,40 @@
+header {
+    ul {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+        height: auto;
+        padding: 10px;
+        background-color: var(--header-background-color);
+        margin-top: 0;
+        margin-bottom: 0;
+
+        li {
+            overflow: auto;
+            list-style: none;
+
+            a {
+                color: white;
+                display: block;
+                margin-left: 16px;
+                margin-right: 16px;
+                text-decoration: none;
+                font-size: 24px;
+            }
+
+            a:hover, a.active {
+                color: #bf616a;
+                transition: color .3s ease-in-out;
+            }
+
+            a:hover:not(#name), a.active:not(#name) {
+                text-decoration: underline;
+            }
+
+            a#name, a#name:hover, a#name.active {
+                font-size: 80px;
+                color: var(--link-color);
+            }
+        }
+    }
+}

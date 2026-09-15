@@ -28,49 +28,12 @@ body {
     }
 }
 
-header {
-    ul {
-        display: flex;
-        flex-direction: row;
-        padding: 0;
-        background-color: var(--header-background-color);
-        margin-top: 0;
-        margin-bottom: 0;
-
-        a {
-            color: white;
-        }
-
-        a:hover {
-            transition: color .3s ease-in-out;
-            color: var(--link-color)
-        }
-
-        a.active {
-            color: var(--link-color)
-        }
-
-        li {
-            list-style: none;
-        }
-    }
-}
-
-
 #photo {
     max-width: 100%;
     height: auto;
     display: block;
 }
 
-a, a:focus {
-    transition: color .3s ease-in-out;
-    color: var(--link-color)
-}
-
-a:hover, a:active {
-    color: var(--link-color-hover)
-}
 
 header ul li {
     color: white;
@@ -89,17 +52,6 @@ header {
         margin: 0;
         padding-left: 4px;
     }
-}
-
-header ul li a {
-    display: block;
-    height: 60px;
-    color: var(--header-foreground-color);
-    margin-left: 16px;
-    margin-right: 16px;
-    text-decoration: none;
-    line-height: 60px;
-    font-size: 20px
 }
 
 #about_me_container {
