@@ -10,7 +10,6 @@ header {
         margin-bottom: 0;
 
         li {
-            overflow: auto;
             list-style: none;
 
             a {
@@ -34,6 +33,8 @@ header {
             a#name, a#name:hover, a#name.active {
                 font-size: 80px;
                 color: var(--link-color);
+                line-height: 1;
+                text-decoration: none;
             }
         }
     }
