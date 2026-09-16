@@ -16,9 +16,9 @@ header {
                 color: white;
                 display: block;
                 margin-left: 16px;
-                margin-right: 16px;
+                margin-right: 32px;
                 text-decoration: none;
-                font-size: 24px;
+                font-size: 32px;
             }
 
             a:hover, a.active {
@@ -31,7 +31,7 @@ header {
             }
 
             a#name, a#name:hover, a#name.active {
-                font-size: 80px;
+                font-size: 64px;
                 color: var(--link-color);
                 line-height: 1;
                 text-decoration: none;
