@@ -4,7 +4,10 @@ use clap::Parser;
 use std::fs::create_dir;
 use std::path::PathBuf;
 use std::process::exit;
+use liquid::ParserBuilder;
 use crate::fs_utils::expect_dir;
+use crate::liquid_date_to_xml_schema::DateToXmlSchema;
+use crate::liquid_xml_escape::XmlEscape;
 
 mod site_parser;
 mod site;
@@ -47,6 +50,12 @@ fn main() {
     let site = site_parser.parse();
 
     print!("\nRendering!\n");
-    SiteRenderer::new().render(site, &root_dir, &output_dir);
+    SiteRenderer::new(
+        ParserBuilder::with_stdlib()
+            .filter(XmlEscape)
+            .filter(DateToXmlSchema)
+            .build()
+            .unwrap()
+    ).render(site, &root_dir, &output_dir);
 }
 

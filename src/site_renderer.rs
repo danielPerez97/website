@@ -1,11 +1,9 @@
 use crate::fs_utils::{ClearContents, copy_recursively, strip_liquid_extension};
-use crate::liquid_date_to_xml_schema::DateToXmlSchema;
-use crate::liquid_xml_escape::XmlEscape;
 use crate::site::{BlogPost, Site};
 use crate::time_utils::format_utc;
 use chrono::Utc;
 use liquid::Parser as LiquidParser;
-use liquid::{Object, ParserBuilder, Template, ValueView, object};
+use liquid::{Object, Template, ValueView, object};
 use std::fs::{create_dir_all, read_to_string, write};
 use std::path::{Path, PathBuf};
 
@@ -22,13 +20,9 @@ pub struct Renderable<'a> {
 }
 
 impl SiteRenderer {
-    pub fn new() -> SiteRenderer {
+    pub fn new(liquid_parser: LiquidParser) -> SiteRenderer {
         SiteRenderer {
-            liquid_parser: ParserBuilder::with_stdlib()
-                .filter(XmlEscape)
-                .filter(DateToXmlSchema)
-                .build()
-                .unwrap(),
+            liquid_parser,
         }
     }
 
