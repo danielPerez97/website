@@ -4,13 +4,18 @@ use serde::Serialize;
 use crate::time_utils::format_utc;
 
 pub struct Site {
-    pub blog_posts: Vec<BlogPost>
+    pub blog_posts: Vec<BlogPost>,
+    pub resume: Resume,
 }
 
 impl Site {
-    pub fn from(posts: Vec<BlogPost>) -> Site {
+    pub fn from(
+        posts: Vec<BlogPost>,
+        resume: Resume,
+    ) -> Site {
         Site {
-            blog_posts: posts
+            blog_posts: posts,
+            resume
         }
     }
 }
@@ -47,4 +52,8 @@ impl BlogPost {
             lead
         }
     }
+}
+
+pub struct Resume {
+    pub last_updated: NaiveDate,
 }

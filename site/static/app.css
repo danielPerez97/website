@@ -75,7 +75,7 @@ body img {
 }
 
 .content {
-    padding: 0px 40px 40px 40px;
+    padding: 0 40px 40px 40px;
     max-width: 1000px;
     line-height: 24px;
 }
@@ -112,6 +112,13 @@ body img {
 ul#blog-list {
     padding-left: 0;
     list-style: none;
+}
+
+a#resume-link, a#resume-link:visited {
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: none;
+    color: inherit;
 }
 
 code {

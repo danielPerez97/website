@@ -17,13 +17,12 @@ pub struct Renderable<'a> {
     current_section: Option<&'a str>,
     template: Option<&'a Template>,
     title: Option<&'a String>,
+    extra_page_data: Option<Object>,
 }
 
 impl SiteRenderer {
     pub fn new(liquid_parser: LiquidParser) -> SiteRenderer {
-        SiteRenderer {
-            liquid_parser,
-        }
+        SiteRenderer { liquid_parser }
     }
 
     pub fn render(&self, site: Site, root_dir: &Path, output_dir: &Path) {
@@ -63,6 +62,7 @@ impl SiteRenderer {
                 current_section: Some("home"),
                 template: None,
                 title: None,
+                extra_page_data: None,
             },
             &site_data,
             &output_dir.join("index.html"),
@@ -76,6 +76,7 @@ impl SiteRenderer {
                 current_section: None,
                 template: None,
                 title: None,
+                extra_page_data: None,
             },
             &site_data,
             &output_dir.join("atom.xml"),
@@ -89,6 +90,7 @@ impl SiteRenderer {
                 current_section: Some("blog"),
                 template: Some(&default_template),
                 title: Some(&String::from("Posts")),
+                extra_page_data: None,
             },
             &site_data,
             &output_dir.join("blog/index.html"),
@@ -102,6 +104,9 @@ impl SiteRenderer {
                 current_section: Some("resume"),
                 template: Some(&default_template),
                 title: Some(&String::from("Resume")),
+                extra_page_data: Some(object!({
+                    "resume_last_updated": site.resume.last_updated.format("%Y-%m-%d").to_string(),
+                })),
             },
             &site_data,
             &output_dir.join("resume/index.html"),
@@ -109,7 +114,7 @@ impl SiteRenderer {
         );
 
         for (blog_post, page_data) in blog_posts.iter().zip(&post_data) {
-            Self::render_blog_page(
+            Self::render_page(
                 output_dir,
                 Some(&header_template),
                 page_data,
@@ -135,11 +140,20 @@ impl SiteRenderer {
             t.render(&object!({ "current_section": renderable.current_section }))
                 .unwrap()
         });
+        let mut page_obj: Object = object!({
+            "title": renderable.title,
+        });
+        if let Some(extra) = &renderable.extra_page_data {
+            for (k, v) in extra {
+                page_obj.insert(k.clone(), v.clone());
+            }
+        }
 
         let content = read_to_string(renderable.html_file).unwrap();
         let intermediate_data: Object = object!({
             "site": site_data,
             "header-content": header_rendered,
+            "page": page_obj,
         });
         let intermediate = liquid_parser
             .parse(&content)
@@ -151,9 +165,7 @@ impl SiteRenderer {
             template
                 .render(&object!({
                     "content": intermediate,
-                    "page": object!({
-                        "title": renderable.title,
-                    }),
+                    "page": page_obj,
                     "header-content": header_rendered,
                     "site": site_data
                 }))
@@ -165,10 +177,13 @@ impl SiteRenderer {
         create_dir_all(output_file.parent().unwrap()).unwrap();
         write(output_file, rendered).unwrap();
 
-        println!("Successfully rendered HTML for {}\n", renderable.html_file.display());
+        println!(
+            "Successfully rendered HTML for {}\n",
+            renderable.html_file.display()
+        );
     }
 
-    fn render_blog_page(
+    fn render_page(
         output_dir: &Path,
         header_template: Option<&Template>,
         page_data: &Object,
