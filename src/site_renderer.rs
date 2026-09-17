@@ -105,7 +105,8 @@ impl SiteRenderer {
                 template: Some(&default_template),
                 title: Some(&String::from("Resume")),
                 extra_page_data: Some(object!({
-                    "resume_last_updated": site.resume.last_updated.format("%Y-%m-%d").to_string(),
+                    "resume_date_slug": site.resume.last_updated.format("%Y-%m-%d").to_string(),
+                    "resume_last_updated": site.resume.last_updated.format("%B %d, %Y").to_string(),
                 })),
             },
             &site_data,
