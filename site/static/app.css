@@ -88,6 +88,11 @@ body img {
     margin-bottom: 15px;
 }
 
+p.date {
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .presentation-list .date {
     font-size: 15px;
     padding-left: 10px;
