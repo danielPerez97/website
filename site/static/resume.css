@@ -1,0 +1,5 @@
+a#resume-link, a#resume-link:visited {
+    font-weight: bold;
+    text-decoration: underline;
+    color: inherit;
+}

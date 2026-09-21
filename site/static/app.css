@@ -88,43 +88,6 @@ body img {
     margin-bottom: 15px;
 }
 
-p.date {
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
-
-.presentation-list .date {
-    font-size: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-}
-
-.presentation-list small {
-    padding-left: 5px;
-}
-
-@media (max-width: 767px) {
-    .presentation-list .date {
-        display: block;
-    }
-
-    .presentation-list small {
-        display: block;
-        padding-left: 0;
-    }
-}
-
-ul#blog-list {
-    padding-left: 0;
-    list-style: none;
-}
-
-a#resume-link, a#resume-link:visited {
-    font-weight: bold;
-    text-decoration: underline;
-    color: inherit;
-}
-
 code {
     color: var(--text-color-lighter);
     background-color: var(--header-background-color);
