@@ -52,7 +52,7 @@ James Shore [worded it perfectly][3] on his blog, *"The Art of Agile"*:
 parameters.**
 
 **No really**, it's just taking parameters, or, **injecting** them. Injecting parameters in constructors, injecting
-parameters in functions, and injecting parameters into mutable members on a class. Or:
+parameters in functions, and injecting parameters into mutable members on a class. Listed out, we have:
 
 * Constructor Injection
 * Method Injection
@@ -148,7 +148,7 @@ class PetActivity: AppCompatActivity()
 }
 ```
 
-Here, we've hidden where the data comes from (SQLite) by hiding the implementation behind the
+Here, we've hidden where the data comes from (an SQLite database) by hiding the implementation behind the
 `PetDataSource` interface. We could have directly used a `NetworkPetDataSource.kt` to retrieve our pets. However, when
 it comes time to test `PetListPresenter`, this pattern has a clear benefit: we can pass fakes/mocks into our object
 under test quickly, especially if we leverage Kotlin's `object` keyword.
@@ -197,7 +197,7 @@ resources. Not ideal for a unit test.
 
 ## I see. Dependency Injection is just a software pattern. But how come people use Metro?
 
-Metro is a DI *framework*. It helps you facilitate this pattern in your code by building a *directed acyclic graph* of
+Metro is a DI *framework*. It helps you facilitate this pattern in your code by building a [directed acyclic graph][11] of
 your dependencies, calling the constructors *for you*, and getting your objects exactly where you need them. In the
 above example, if one had used Metro, our `PetActivity` would have looked like this:
 
@@ -250,7 +250,7 @@ Ideally you wouldn't have to. Your `minSdk` probably decides for you.
 
 If you have at least `minSdk = 28`, you can prefer constructor injection. `minSdk = 28` [introduced API's][6]
 like `AppComponentFactory` and `FragmentFactory` so you can get constructor injection on Activities, Fragments,
-Services, Content Providers, etc. [`MetroX Android`][7] is quite good at hooking into these API's for you.
+Services, Content Providers, etc. [MetroX Android][7] is quite good at hooking into these API's for you.
 
 If you are below `minSdk = 28`, then it is imperative that we call Metro's generated code *somewhere* for every object
 we'd like to retrieve from the Metro graph.* In the case of Members Injection, something called a `MembersInjector` gets
@@ -267,7 +267,7 @@ A reflection-based Dependency Injection framework like [Guice][10] can be more "
 the generated code anywhere in order to get your objects. Guice was originally made for server applications though, not
 mobile devices. In the early 2010's, Guice on Android wasn't unheard of, but the performance cost was too much.
 
-A better-performing solution was needed, and a better-performing solution is what we got: [Dagger][8]
+A better-performing solution was needed, and a better-performing solution is what we got: [Dagger][8].
 
 Dagger 1 did not use 100% code generation, but it was more appropriate for mobile than Guice. 100% code generation was
 finally achieved with [Dagger 2][9].
@@ -296,7 +296,7 @@ I think Metro is even easier than Dagger 2 to set up, and it's largely because o
 much more forward about its intent than Dagger's `@Module` annotation for example. Or the Metro docs telling you to
 create an `AppGraph` interface, not an `AppComponent`.
 
-#### "Yes. It is imperative that we call Metro's generated code"
+#### * "Yes. It is imperative that we call Metro's generated code"
 
 * This isn't to say we can't be more clever about calling our `MembersInjector`'s. [Slack largely hid this][4] by using
   an extension to Metro called [Anvil][5].
@@ -320,3 +320,5 @@ create an `AppGraph` interface, not an `AppComponent`.
 [9]: https://dagger.dev/
 
 [10]: https://github.com/google/guice
+
+[11]: https://en.wikipedia.org/wiki/Directed_acyclic_graph
