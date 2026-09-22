@@ -39,3 +39,27 @@ header {
         }
     }
 }
+
+/* Mobile */
+@media (max-width: 600px) {
+    header ul {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 8px;
+        gap: 16px;
+    }
+
+    header ul li a#name,
+    header ul li a#name:hover,
+    header ul li a#name.active {
+        font-size: clamp(18px, 5vw, 32px);
+        margin-right: auto;
+    }
+
+    header ul li a:not(#name) {
+        margin-left: clamp(2px, 1vw, 16px);
+        margin-right: clamp(4px, 2vw, 32px);
+        font-size: clamp(12px, 3vw, 32px);
+    }
+}
